@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package trabalho_tcp;
-
+import java.io.File;
 /**
  *
  * @author pedro
@@ -27,7 +27,7 @@ public class telaPrincipal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        label1 = new java.awt.Label();
+        fileChooserArquivoEntrada = new javax.swing.JFileChooser();
         jScrollPane1 = new javax.swing.JScrollPane();
         textAreaTextoEntrada = new javax.swing.JTextArea();
         botaoPlay = new javax.swing.JButton();
@@ -45,8 +45,6 @@ public class telaPrincipal extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         botaoInsereArquivo = new javax.swing.JButton();
         botaoSalvarSaida = new javax.swing.JButton();
-
-        label1.setText("label1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -145,9 +143,9 @@ public class telaPrincipal extends javax.swing.JFrame {
                     .addComponent(jLabel5))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 4, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(botaoInsereArquivo)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -188,6 +186,12 @@ public class telaPrincipal extends javax.swing.JFrame {
 
     private void botaoInsereArquivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoInsereArquivoActionPerformed
         // TODO add your handling code here:
+        if (fileChooserArquivoEntrada.showOpenDialog(this) == javax.swing.JFileChooser.APPROVE_OPTION) {
+            File f = fileChooserArquivoEntrada.getSelectedFile();
+            // read  and/or display the file somehow. ....
+        } else {
+            // user changed their mind
+        }
     }//GEN-LAST:event_botaoInsereArquivoActionPerformed
 
     private void botaoSalvarSaidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoSalvarSaidaActionPerformed
@@ -237,16 +241,17 @@ public class telaPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton botaoPlay;
     private javax.swing.JButton botaoSalvarSaida;
     private javax.swing.JComboBox<String> comboBoxInstrumento;
+    private javax.swing.JFileChooser fileChooserArquivoEntrada;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
-    private java.awt.Label label1;
     private javax.swing.JSpinner spinnerBPM;
     private javax.swing.JSpinner spinnerOitava;
     private javax.swing.JSpinner spinnerVolume;
     private javax.swing.JTextArea textAreaTextoEntrada;
     // End of variables declaration//GEN-END:variables
+    private Player p = new Player();
 }
