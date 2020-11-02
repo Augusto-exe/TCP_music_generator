@@ -9,13 +9,15 @@ package trabalho_tcp;
  *
  * @author pedro
  */
-public class Trabalho_TCP {
+public class Music_Generator {
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        telaPrincipal t = new telaPrincipal();
+        t.setVisible(true);
     }
     
 }
