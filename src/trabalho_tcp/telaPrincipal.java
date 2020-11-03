@@ -5,6 +5,29 @@
  */
 package trabalho_tcp;
 import java.io.File;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.EventQueue;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.filechooser.FileFilter;
 /**
  *
  * @author pedro
@@ -187,11 +210,21 @@ public class telaPrincipal extends javax.swing.JFrame {
     private void botaoInsereArquivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoInsereArquivoActionPerformed
         // TODO add your handling code here:
         if (fileChooserArquivoEntrada.showOpenDialog(this) == javax.swing.JFileChooser.APPROVE_OPTION) {
-            File f = fileChooserArquivoEntrada.getSelectedFile();
-            // read  and/or display the file somehow. ....
-        } else {
-            // user changed their mind
-        }
+            File inputTextFile = fileChooserArquivoEntrada.getSelectedFile();
+
+            try (BufferedReader br = new BufferedReader( new FileReader (inputTextFile))) {
+                                textAreaTextoEntrada.setText(null);
+                                String text = null;
+                                while ((text = br.readLine()) != null) {
+                                    textAreaTextoEntrada.append(text);
+                                    textAreaTextoEntrada.append("\n");
+                                }
+                                textAreaTextoEntrada.setCaretPosition(0);
+                            } catch (IOException exp) {
+                                exp.printStackTrace();
+                                
+                            }
+        } 
     }//GEN-LAST:event_botaoInsereArquivoActionPerformed
 
     private void botaoSalvarSaidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoSalvarSaidaActionPerformed
@@ -253,5 +286,6 @@ public class telaPrincipal extends javax.swing.JFrame {
     private javax.swing.JSpinner spinnerVolume;
     private javax.swing.JTextArea textAreaTextoEntrada;
     // End of variables declaration//GEN-END:variables
-    private Player p = new Player();
+    private Player player = new Player();
+    private Analisador analisador = new Analisador();
 }
