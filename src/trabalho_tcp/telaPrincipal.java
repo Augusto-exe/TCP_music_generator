@@ -18,6 +18,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import javax.sound.midi.MidiSystem;
+import javax.sound.midi.Sequencer;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -76,8 +78,18 @@ public class telaPrincipal extends javax.swing.JFrame {
         jScrollPane1.setViewportView(textAreaTextoEntrada);
 
         botaoPlay.setText("       ▶       ");
+        botaoPlay.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoPlayActionPerformed(evt);
+            }
+        });
 
         botaoPause.setText("      ▌▌     ");
+        botaoPause.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoPauseActionPerformed(evt);
+            }
+        });
 
         botaoCancela.setText("       ■       ");
 
@@ -206,6 +218,8 @@ public class telaPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
         //GERA MUSICA
         analisador.geraMusica("aaaa");
+        playerMusica.setSequencia(analisador.sequenciaGerada);
+        
         
     }//GEN-LAST:event_botaoGeraMusicaActionPerformed
 
@@ -232,6 +246,14 @@ public class telaPrincipal extends javax.swing.JFrame {
     private void botaoSalvarSaidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoSalvarSaidaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_botaoSalvarSaidaActionPerformed
+
+    private void botaoPlayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoPlayActionPerformed
+        playerMusica.play();
+    }//GEN-LAST:event_botaoPlayActionPerformed
+
+    private void botaoPauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoPauseActionPerformed
+        playerMusica.pause();
+    }//GEN-LAST:event_botaoPauseActionPerformed
 
     /**
      * @param args the command line arguments
@@ -288,6 +310,6 @@ public class telaPrincipal extends javax.swing.JFrame {
     private javax.swing.JSpinner spinnerVolume;
     private javax.swing.JTextArea textAreaTextoEntrada;
     // End of variables declaration//GEN-END:variables
-    private Player player = new Player();
+    private PlayerMusica playerMusica = new PlayerMusica();
     private Analisador analisador = new Analisador();
 }

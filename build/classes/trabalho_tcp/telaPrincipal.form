@@ -146,11 +146,17 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="       &#x25b6;       "/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botaoPlayActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="botaoPause">
       <Properties>
         <Property name="text" type="java.lang.String" value="      &#x258c;&#x258c;     "/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botaoPauseActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="botaoCancela">
       <Properties>
