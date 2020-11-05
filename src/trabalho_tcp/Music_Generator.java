@@ -7,7 +7,7 @@ package trabalho_tcp;
 
 /**
  *
- * @author pedro
+ * @author Augusto
  */
 public class Music_Generator {
 

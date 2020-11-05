@@ -30,7 +30,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.filechooser.FileFilter;
 /**
  *
- * @author pedro
+ * @author Augusto
  */
 public class telaPrincipal extends javax.swing.JFrame {
 
@@ -171,11 +171,12 @@ public class telaPrincipal extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(botaoPlay)
-                            .addComponent(botaoPause)
-                            .addComponent(botaoCancela)
-                            .addComponent(botaoGeraMusica))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(botaoPause)
+                                .addComponent(botaoCancela)
+                                .addComponent(botaoGeraMusica)))
                         .addGap(23, 23, 23))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -204,6 +205,7 @@ public class telaPrincipal extends javax.swing.JFrame {
     private void botaoGeraMusicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoGeraMusicaActionPerformed
         // TODO add your handling code here:
         //GERA MUSICA
+        analisador.geraMusica("aaaa");
         
     }//GEN-LAST:event_botaoGeraMusicaActionPerformed
 

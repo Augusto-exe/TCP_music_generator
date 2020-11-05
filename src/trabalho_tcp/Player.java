@@ -4,10 +4,14 @@
  * and open the template in the editor.
  */
 package trabalho_tcp;
+import java.io.*;
+import java.util.*;
+import javax.sound.sampled.*;
+import javax.sound.midi.*;
 
 /**
  *
- * @author pedro
+ * @author Augusto
  */
 public class Player {
     

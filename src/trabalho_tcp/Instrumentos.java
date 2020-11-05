@@ -7,10 +7,10 @@ package trabalho_tcp;
 
 /**
  *
- * @author pedro
+ * @author Augusto
  */
 public class Instrumentos {
-    static public int agogo = 144;
+    static public int agogo = 114;
     static public int cravo = 7;
     static public int sinos = 15;
     static public int flautaPan = 76;
