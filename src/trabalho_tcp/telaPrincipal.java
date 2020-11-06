@@ -214,6 +214,9 @@ public class telaPrincipal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private PlayerMusica playerMusica = new PlayerMusica();
+    private Analisador analisador = new Analisador();
+    
     private void botaoGeraMusicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoGeraMusicaActionPerformed
         // TODO add your handling code here:
         //GERA MUSICA
@@ -310,6 +313,5 @@ public class telaPrincipal extends javax.swing.JFrame {
     private javax.swing.JSpinner spinnerVolume;
     private javax.swing.JTextArea textAreaTextoEntrada;
     // End of variables declaration//GEN-END:variables
-    private PlayerMusica playerMusica = new PlayerMusica();
-    private Analisador analisador = new Analisador();
+    
 }

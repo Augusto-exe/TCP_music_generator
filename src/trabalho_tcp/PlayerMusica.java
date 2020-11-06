@@ -36,9 +36,10 @@ public class PlayerMusica {
     public void play(){
          try
         {
-            
+            if(playerTerminou())
+                player.setTickPosition(0); // redefine para o começo da musica
             player.start();
-        
+            //augusto 
         }
         catch(Exception e)
         {
@@ -51,11 +52,17 @@ public class PlayerMusica {
         {
             
             player.stop();
-        
+            
         }
         catch(Exception e)
         {
            System.out.println(e);
         }
     }
+    
+    private boolean playerTerminou()
+    {
+        return player.getTickPosition() >= player.getTickLength();
+    }
+
 }
