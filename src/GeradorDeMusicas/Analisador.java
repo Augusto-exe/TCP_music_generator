@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package trabalho_tcp;
+package GeradorDeMusicas;
 import java.io.*;
 import java.util.*;
 import javax.sound.sampled.*;
