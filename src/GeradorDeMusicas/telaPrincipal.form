@@ -145,6 +145,7 @@
     <Component class="javax.swing.JButton" name="botaoPlay">
       <Properties>
         <Property name="text" type="java.lang.String" value="&lt;html&gt;&amp;#9654 "/>
+        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botaoPlayActionPerformed"/>
@@ -153,6 +154,7 @@
     <Component class="javax.swing.JButton" name="botaoPause">
       <Properties>
         <Property name="text" type="java.lang.String" value="&lt;html&gt;&amp;#9612 &lt;html&gt;&amp;#9612"/>
+        <Property name="enabled" type="boolean" value="false"/>
         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[41, 23]"/>
         </Property>
@@ -167,6 +169,7 @@
     <Component class="javax.swing.JButton" name="botaoCancela">
       <Properties>
         <Property name="text" type="java.lang.String" value="&lt;html&gt;&amp;#9209"/>
+        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botaoCancelaActionPerformed"/>
@@ -251,6 +254,7 @@
     <Component class="javax.swing.JButton" name="botaoSalvarSaida">
       <Properties>
         <Property name="text" type="java.lang.String" value="Salvar sa&#xed;da MIDI"/>
+        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botaoSalvarSaidaActionPerformed"/>

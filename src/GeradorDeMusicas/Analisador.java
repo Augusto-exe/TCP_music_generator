@@ -13,7 +13,8 @@ import javax.sound.midi.*;
  *
  * @author Augusto
  */
-public class Analisador {
+public class Analisador 
+{
     private final static int canal =0,velocidade =100;
     public Sequence sequenciaGerada;
     

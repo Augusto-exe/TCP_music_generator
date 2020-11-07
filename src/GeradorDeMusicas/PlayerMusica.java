@@ -13,7 +13,8 @@ import javax.sound.midi.*;
  *
  * @author Augusto
  */
-public class PlayerMusica {
+public class PlayerMusica 
+{
     
     private Sequencer player;
     
@@ -33,7 +34,8 @@ public class PlayerMusica {
     
     }
     
-    public void play(){
+    public void play()
+    {
          try
         {
             if(playerTerminou())
@@ -47,7 +49,8 @@ public class PlayerMusica {
         }
     }
     
-    public void pause(){
+    public void pause()
+    {
          try
         {
             

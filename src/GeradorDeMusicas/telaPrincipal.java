@@ -78,6 +78,7 @@ public class telaPrincipal extends javax.swing.JFrame {
         jScrollPane1.setViewportView(textAreaTextoEntrada);
 
         botaoPlay.setText("<html>&#9654 ");
+        botaoPlay.setEnabled(false);
         botaoPlay.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botaoPlayActionPerformed(evt);
@@ -85,6 +86,7 @@ public class telaPrincipal extends javax.swing.JFrame {
         });
 
         botaoPause.setText("<html>&#9612 <html>&#9612");
+        botaoPause.setEnabled(false);
         botaoPause.setMinimumSize(new java.awt.Dimension(41, 23));
         botaoPause.setPreferredSize(new java.awt.Dimension(41, 23));
         botaoPause.addActionListener(new java.awt.event.ActionListener() {
@@ -94,6 +96,7 @@ public class telaPrincipal extends javax.swing.JFrame {
         });
 
         botaoCancela.setText("<html>&#9209");
+        botaoCancela.setEnabled(false);
         botaoCancela.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botaoCancelaActionPerformed(evt);
@@ -134,6 +137,7 @@ public class telaPrincipal extends javax.swing.JFrame {
         });
 
         botaoSalvarSaida.setText("Salvar saída MIDI");
+        botaoSalvarSaida.setEnabled(false);
         botaoSalvarSaida.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botaoSalvarSaidaActionPerformed(evt);
@@ -232,29 +236,38 @@ public class telaPrincipal extends javax.swing.JFrame {
     private void botaoGeraMusicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoGeraMusicaActionPerformed
         // TODO add your handling code here:
         //GERA MUSICA
-        analisador.geraMusica("aaaa");
+        analisador.geraMusica(textAreaTextoEntrada.getText());
         playerMusica.setSequencia(analisador.sequenciaGerada);
         
+        botaoCancela.setEnabled(true);
+        botaoPlay.setEnabled(true);
+        botaoPause.setEnabled(true);
         
     }//GEN-LAST:event_botaoGeraMusicaActionPerformed
 
     private void botaoInsereArquivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoInsereArquivoActionPerformed
-        // TODO add your handling code here:
-        if (fileChooserArquivoEntrada.showOpenDialog(this) == javax.swing.JFileChooser.APPROVE_OPTION) {
+
+        
+        if (fileChooserArquivoEntrada.showOpenDialog(this) == javax.swing.JFileChooser.APPROVE_OPTION) 
+        {
             File inputTextFile = fileChooserArquivoEntrada.getSelectedFile();
 
-            try (BufferedReader br = new BufferedReader( new FileReader (inputTextFile))) {
-                                textAreaTextoEntrada.setText(null);
-                                String text = null;
-                                while ((text = br.readLine()) != null) {
-                                    textAreaTextoEntrada.append(text);
-                                    textAreaTextoEntrada.append("\n");
-                                }
-                                textAreaTextoEntrada.setCaretPosition(0);
-                            } catch (IOException exp) {
-                                exp.printStackTrace();
-                                
-                            }
+            try (BufferedReader br = new BufferedReader( new FileReader (inputTextFile))) 
+            {
+                textAreaTextoEntrada.setText(null);
+                String text = null;
+                while ((text = br.readLine()) != null) 
+                {
+                    textAreaTextoEntrada.append(text);
+                    textAreaTextoEntrada.append("\n");
+                }
+                textAreaTextoEntrada.setCaretPosition(0);
+            } 
+            catch (IOException exp) 
+            {
+                exp.printStackTrace();
+
+            }
         } 
     }//GEN-LAST:event_botaoInsereArquivoActionPerformed
 
