@@ -222,6 +222,11 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JSpinner" name="spinnerBPM">
+      <Properties>
+        <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+          <SpinnerModel initial="120" maximum="240" minimum="40" numberType="java.lang.Integer" stepSize="1" type="number"/>
+        </Property>
+      </Properties>
     </Component>
     <Component class="javax.swing.JSpinner" name="spinnerVolume">
       <Properties>

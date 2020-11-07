@@ -123,6 +123,8 @@ public class telaPrincipal extends javax.swing.JFrame {
 
         jLabel3.setText("Oitava:");
 
+        spinnerBPM.setModel(new javax.swing.SpinnerNumberModel(120, 40, 240, 1));
+
         spinnerVolume.setModel(new javax.swing.SpinnerNumberModel(50, 0, 100, 1));
         spinnerVolume.setValue(50);
 
