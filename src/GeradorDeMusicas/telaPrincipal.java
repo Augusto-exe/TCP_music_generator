@@ -123,6 +123,11 @@ public class telaPrincipal extends javax.swing.JFrame {
 
         jLabel3.setText("Oitava:");
 
+        spinnerVolume.setModel(new javax.swing.SpinnerNumberModel(50, 0, 100, 1));
+        spinnerVolume.setValue(50);
+
+        spinnerOitava.setModel(new javax.swing.SpinnerNumberModel(1, 0, 9, 1));
+
         jLabel4.setFont(new java.awt.Font("Ubuntu", 1, 24)); // NOI18N
         jLabel4.setText("Entrada de Texto:");
 
@@ -242,6 +247,7 @@ public class telaPrincipal extends javax.swing.JFrame {
         botaoCancela.setEnabled(true);
         botaoPlay.setEnabled(true);
         botaoPause.setEnabled(true);
+        botaoSalvarSaida.setEnabled(true);
         
     }//GEN-LAST:event_botaoGeraMusicaActionPerformed
 
@@ -277,6 +283,13 @@ public class telaPrincipal extends javax.swing.JFrame {
 
     private void botaoPlayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoPlayActionPerformed
         playerMusica.play();
+        botaoGeraMusica.setEnabled(false);
+        spinnerBPM.setEnabled(false);
+        spinnerOitava.setEnabled(false);
+        spinnerVolume.setEnabled(false);
+        comboBoxInstrumento.setEnabled(false);
+        botaoInsereArquivo.setEnabled(false);
+        textAreaTextoEntrada.setEnabled(false);
     }//GEN-LAST:event_botaoPlayActionPerformed
 
     private void botaoPauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoPauseActionPerformed
@@ -284,7 +297,17 @@ public class telaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_botaoPauseActionPerformed
 
     private void botaoCancelaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoCancelaActionPerformed
-        // TODO add your handling code here:
+        botaoGeraMusica.setEnabled(true);
+        spinnerBPM.setEnabled(true);
+        spinnerOitava.setEnabled(true);
+        spinnerVolume.setEnabled(true);
+        comboBoxInstrumento.setEnabled(true);
+        botaoInsereArquivo.setEnabled(true);
+        textAreaTextoEntrada.setEnabled(true);
+        botaoCancela.setEnabled(false);
+        botaoPlay.setEnabled(false);
+        botaoPause.setEnabled(false);
+        botaoSalvarSaida.setEnabled(false);
     }//GEN-LAST:event_botaoCancelaActionPerformed
 
     private void comboBoxInstrumentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxInstrumentoActionPerformed
