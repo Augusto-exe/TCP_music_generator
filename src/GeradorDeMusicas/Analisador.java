@@ -23,16 +23,25 @@ public class Analisador
         try
         {
 
-        sequenciaGerada = new Sequence(Sequence.PPQ, 2); // cria nova sequuencia com 2 ticks por batida
+        sequenciaGerada = new Sequence(Sequence.PPQ, 4); // cria nova sequuencia com 4 ticks por batida
         Track musicaGerada = sequenciaGerada.createTrack();
         
         ShortMessage sm = new ShortMessage( );
         sm.setMessage(ShortMessage.PROGRAM_CHANGE, canal, Instrumentos.agogo, velocidade);
         musicaGerada.add(new MidiEvent(sm, 0));
         
+        
+        ShortMessage volumeMessage = new ShortMessage( );
+        volumeMessage.setMessage( ShortMessage.CONTROL_CHANGE, canal, 7, (int)(0.3*127) );
+        musicaGerada.add(new MidiEvent(volumeMessage, 0));
+        
+        musicaGerada.add(createSetTempoEvent(0, 40));
+        
         ShortMessage sm1 = new ShortMessage( );
         sm1.setMessage(ShortMessage.NOTE_ON, canal, 45, velocidade);
         musicaGerada.add(new MidiEvent(sm1, 1));
+        
+        musicaGerada.add(createSetTempoEvent(5, 180));
         
         ShortMessage sm2 = new ShortMessage( );
         sm2.setMessage(ShortMessage.NOTE_OFF, canal, 45, velocidade);
@@ -41,6 +50,10 @@ public class Analisador
         ShortMessage sm3 = new ShortMessage( );
         sm3.setMessage(ShortMessage.PROGRAM_CHANGE, canal, Instrumentos.orgaoDeTubo, velocidade);
         musicaGerada.add(new MidiEvent(sm3, 4));
+        
+        ShortMessage volumeMessage1 = new ShortMessage( );
+        volumeMessage1.setMessage( ShortMessage.CONTROL_CHANGE, canal, 7, (int)(0.8*127) );
+        musicaGerada.add(new MidiEvent(volumeMessage1, 5));
         
         ShortMessage sm4 = new ShortMessage( );
         sm4.setMessage(ShortMessage.NOTE_ON, canal, 36, velocidade);
@@ -79,5 +92,30 @@ public class Analisador
         MidiEvent eventoMIDI =new MidiEvent(mensagem, ticks);
         
         return eventoMIDI;
+    }
+    
+    public static MidiEvent createSetTempoEvent(long tick, long tempo) {
+        // microseconds per quarternote
+        long mpqn = 60000000 / tempo;
+
+        MetaMessage metaMessage = new MetaMessage();
+
+        // create the tempo byte array
+        byte[] array = new byte[] { 0, 0, 0 };
+
+        for (int i = 0; i < 3; i++) {
+            int shift = (3 - 1 - i) * 8;
+            array[i] = (byte) (mpqn >> shift);
+        }
+
+        // now set the message
+        try {
+            metaMessage.setMessage(81, array, 3);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+
+        return new MidiEvent(metaMessage, tick);
     }
 }
