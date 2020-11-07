@@ -65,4 +65,18 @@ public class Analisador {
 
     }
    
+    
+    private ShortMessage geraMensagem()
+    {
+        ShortMessage mensagemMIDI = new ShortMessage( );
+    
+        return mensagemMIDI;
+    }
+    
+    private MidiEvent geraEvento(ShortMessage mensagem, int ticks)
+    {
+        MidiEvent eventoMIDI =new MidiEvent(mensagem, ticks);
+        
+        return eventoMIDI;
+    }
 }
