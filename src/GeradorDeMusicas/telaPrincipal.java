@@ -77,21 +77,28 @@ public class telaPrincipal extends javax.swing.JFrame {
         textAreaTextoEntrada.setRows(5);
         jScrollPane1.setViewportView(textAreaTextoEntrada);
 
-        botaoPlay.setText("       ▶       ");
+        botaoPlay.setText("<html>&#9654 ");
         botaoPlay.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botaoPlayActionPerformed(evt);
             }
         });
 
-        botaoPause.setText("      ▌▌     ");
+        botaoPause.setText("<html>&#9612 <html>&#9612");
+        botaoPause.setMinimumSize(new java.awt.Dimension(41, 23));
+        botaoPause.setPreferredSize(new java.awt.Dimension(41, 23));
         botaoPause.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botaoPauseActionPerformed(evt);
             }
         });
 
-        botaoCancela.setText("       ■       ");
+        botaoCancela.setText("<html>&#9209");
+        botaoCancela.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoCancelaActionPerformed(evt);
+            }
+        });
 
         botaoGeraMusica.setText("Gerar Música");
         botaoGeraMusica.addActionListener(new java.awt.event.ActionListener() {
@@ -100,7 +107,12 @@ public class telaPrincipal extends javax.swing.JFrame {
             }
         });
 
-        comboBoxInstrumento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione um Instrumento", "Piano", "Violino", "Violão" }));
+        comboBoxInstrumento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione um Instrumento", "Agogô", "Cravo", "Sinos", "Flauta Pan", "Orgão de Tubo" }));
+        comboBoxInstrumento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboBoxInstrumentoActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Volume:");
 
@@ -145,11 +157,11 @@ public class telaPrincipal extends javax.swing.JFrame {
                 .addGap(39, 39, 39)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(botaoPlay)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
-                        .addComponent(botaoPause)
-                        .addGap(18, 18, 18)
-                        .addComponent(botaoCancela))
+                        .addComponent(botaoPlay, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
+                        .addComponent(botaoPause, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(60, 60, 60)
+                        .addComponent(botaoCancela, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(comboBoxInstrumento, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(botaoSalvarSaida, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
@@ -162,7 +174,7 @@ public class telaPrincipal extends javax.swing.JFrame {
                         .addComponent(spinnerBPM, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel5)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(0, 125, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -184,10 +196,10 @@ public class telaPrincipal extends javax.swing.JFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(botaoPlay)
+                            .addComponent(botaoPlay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(botaoPause)
-                                .addComponent(botaoCancela)
+                                .addComponent(botaoPause, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(botaoCancela, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(botaoGeraMusica)))
                         .addGap(23, 23, 23))
                     .addGroup(layout.createSequentialGroup()
@@ -257,6 +269,14 @@ public class telaPrincipal extends javax.swing.JFrame {
     private void botaoPauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoPauseActionPerformed
         playerMusica.pause();
     }//GEN-LAST:event_botaoPauseActionPerformed
+
+    private void botaoCancelaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoCancelaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_botaoCancelaActionPerformed
+
+    private void comboBoxInstrumentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxInstrumentoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboBoxInstrumentoActionPerformed
 
     /**
      * @param args the command line arguments
