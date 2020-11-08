@@ -242,12 +242,18 @@ public class telaPrincipal extends javax.swing.JFrame {
     
     private void botaoGeraMusicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoGeraMusicaActionPerformed
         //GERA MUSICA
-        int bpm = (int)(spinnerBPM.getValue());
-        int volume = (int)(spinnerVolume.getValue());
-        int oitava = (int)(spinnerOitava.getValue());
-        int indiceInstrumento = (int)(comboBoxInstrumento.getSelectedIndex());
-        analisador.geraMusica(textAreaTextoEntrada.getText(),bpm,oitava,volume,indiceInstrumento);
-        //playerMusica.setSequencia(analisador.sequenciaGerada);
+        
+        int bpm,volume,oitava,indiceInstrumento,instrumento;
+        
+        bpm = (int)(spinnerBPM.getValue());
+        volume = (int)(spinnerVolume.getValue());
+        oitava = (int)(spinnerOitava.getValue());
+        indiceInstrumento = (int)(comboBoxInstrumento.getSelectedIndex());
+        instrumento = seletorInstrumento(indiceInstrumento);
+        
+        
+        analisador.geraMusica(textAreaTextoEntrada.getText(),bpm,oitava,volume,instrumento);
+        playerMusica.setSequencia(analisador.sequenciaGerada);
         
         botaoCancela.setEnabled(true);
         botaoPlay.setEnabled(true);
@@ -316,9 +322,37 @@ public class telaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_botaoCancelaActionPerformed
 
     private void comboBoxInstrumentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxInstrumentoActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_comboBoxInstrumentoActionPerformed
 
+    private int seletorInstrumento(int indiceInstrumento)
+    {
+        int instrumento;
+        switch(indiceInstrumento)
+        {
+            case 0:
+            case 1:
+                instrumento = Instrumentos.AGOGO;
+                break;
+            case 2:
+                instrumento = Instrumentos.CRAVO;
+                break;
+            case 3:
+                instrumento = Instrumentos.SINOS;
+                break;
+            case 4:
+                instrumento = Instrumentos.FLAUTA_PAN;
+                break;
+            case 5:
+                instrumento = Instrumentos.ORGAO_DE_TUBO;
+                break;
+            default:
+                instrumento = Instrumentos.AGOGO;
+                break;
+        }
+        return instrumento;
+    }
+    
     /**
      * @param args the command line arguments
      */

@@ -16,13 +16,13 @@ import javax.sound.midi.*;
 public class Analisador implements Instrumentos , PadroesMusica //classe analisador implementa as duas interfaces de constantes
 {
     private final static int canal =0,velocidade =100;
-    
+    private int instrumentoAtual, oitavaAtual, bpmAtual, volume, tickAtual = 0;
     public Sequence sequenciaGerada;
     
     public void geraMusica(String textoEntrada, int bpmEntrada, int volumeEntrada, int oitavaEntrada, int instrumentoEntrada)
     {
-        int instrumentoAtual, oitavaAtual, bpmAtual, volume, tickAtual;
         
+        inicializaAtributos(bpmEntrada,volumeEntrada,oitavaEntrada,instrumentoEntrada);
         try
         {
             
@@ -38,13 +38,13 @@ public class Analisador implements Instrumentos , PadroesMusica //classe analisa
         volumeMessage.setMessage( ShortMessage.CONTROL_CHANGE, canal, 7, (int)(0.3*127) );
         musicaGerada.add(new MidiEvent(volumeMessage, 0));
         
-        musicaGerada.add(createSetTempoEvent(0, 40));
+        musicaGerada.add(geraEventoBPM(0, 40));
         
         ShortMessage sm1 = new ShortMessage( );
         sm1.setMessage(ShortMessage.NOTE_ON, canal, 45, velocidade);
         musicaGerada.add(new MidiEvent(sm1, 1));
         
-        musicaGerada.add(createSetTempoEvent(5, 180));
+        musicaGerada.add(geraEventoBPM(5, 180));
         
         ShortMessage sm2 = new ShortMessage( );
         sm2.setMessage(ShortMessage.NOTE_OFF, canal, 45, velocidade);
@@ -83,12 +83,25 @@ public class Analisador implements Instrumentos , PadroesMusica //classe analisa
     }
    
     
-    private ShortMessage geraMensagem()
+    private ShortMessage geraMensagemNota()
     {
         ShortMessage mensagemMIDI = new ShortMessage( );
     
         return mensagemMIDI;
     }
+    private ShortMessage geraMensagemInstrumento()
+    {
+        ShortMessage mensagemMIDI = new ShortMessage( );
+    
+        return mensagemMIDI;
+    }
+    private ShortMessage geraMensagemVolume()
+    {
+        ShortMessage mensagemMIDI = new ShortMessage( );
+    
+        return mensagemMIDI;
+    }
+    
     
     private MidiEvent geraEvento(ShortMessage mensagem, int ticks)
     {
@@ -100,7 +113,7 @@ public class Analisador implements Instrumentos , PadroesMusica //classe analisa
     
     
     //Esse trecho de código foi pego pronto, é utilizado para gerar um evento MIDI de alteração do BPM da música
-    public static MidiEvent createSetTempoEvent(long tick, long bpm) {
+    public static MidiEvent geraEventoBPM(long tick, long bpm) {
         // microseconds per quarternote
         long mpqn = 60000000 / bpm; //60000000  é o valor de ms para que  se passe um minuto na música, esse valor pode variar de acordo com o indice de ticks por batida
 
@@ -123,6 +136,17 @@ public class Analisador implements Instrumentos , PadroesMusica //classe analisa
         }
 
         return new MidiEvent(metaMessage, tick); // Retorna o Evento MIDI criado
+    }
+
+    private void inicializaAtributos(int bpmEntrada, int volumeEntrada, int oitavaEntrada, int instrumentoEntrada)
+    {
+        
+        oitavaAtual = oitavaEntrada;
+        bpmAtual = bpmEntrada;
+        volume = volumeEntrada;
+        instrumentoAtual = instrumentoEntrada;
+        tickAtual = 0;
+        
     }
 
 }
