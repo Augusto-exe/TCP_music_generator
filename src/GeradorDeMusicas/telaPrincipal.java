@@ -241,10 +241,13 @@ public class telaPrincipal extends javax.swing.JFrame {
     private Analisador analisador = new Analisador();
     
     private void botaoGeraMusicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoGeraMusicaActionPerformed
-        // TODO add your handling code here:
         //GERA MUSICA
-        analisador.geraMusica(textAreaTextoEntrada.getText());
-        playerMusica.setSequencia(analisador.sequenciaGerada);
+        int bpm = (int)(spinnerBPM.getValue());
+        int volume = (int)(spinnerVolume.getValue());
+        int oitava = (int)(spinnerOitava.getValue());
+        int indiceInstrumento = (int)(comboBoxInstrumento.getSelectedIndex());
+        analisador.geraMusica(textAreaTextoEntrada.getText(),bpm,oitava,volume,indiceInstrumento);
+        //playerMusica.setSequencia(analisador.sequenciaGerada);
         
         botaoCancela.setEnabled(true);
         botaoPlay.setEnabled(true);

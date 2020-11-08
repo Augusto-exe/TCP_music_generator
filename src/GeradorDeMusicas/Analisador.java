@@ -13,21 +13,24 @@ import javax.sound.midi.*;
  *
  * @author Augusto
  */
-public class Analisador 
+public class Analisador implements Instrumentos , PadroesMusica //classe analisador implementa as duas interfaces de constantes
 {
     private final static int canal =0,velocidade =100;
+    
     public Sequence sequenciaGerada;
     
-    public void geraMusica(String textoEntrada)
+    public void geraMusica(String textoEntrada, int bpmEntrada, int volumeEntrada, int oitavaEntrada, int instrumentoEntrada)
     {
+        int instrumentoAtual, oitavaAtual, bpmAtual, volume, tickAtual;
+        
         try
         {
-
+            
         sequenciaGerada = new Sequence(Sequence.PPQ, 4); // cria nova sequuencia com 4 ticks por batida
         Track musicaGerada = sequenciaGerada.createTrack();
         
         ShortMessage sm = new ShortMessage( );
-        sm.setMessage(ShortMessage.PROGRAM_CHANGE, canal, Instrumentos.agogo, velocidade);
+        sm.setMessage(ShortMessage.PROGRAM_CHANGE, canal, AGOGO, velocidade);
         musicaGerada.add(new MidiEvent(sm, 0));
         
         
@@ -48,7 +51,7 @@ public class Analisador
         musicaGerada.add(new MidiEvent(sm2, 4));
 
         ShortMessage sm3 = new ShortMessage( );
-        sm3.setMessage(ShortMessage.PROGRAM_CHANGE, canal, Instrumentos.orgaoDeTubo, velocidade);
+        sm3.setMessage(ShortMessage.PROGRAM_CHANGE, canal, ORGAO_DE_TUBO, velocidade);
         musicaGerada.add(new MidiEvent(sm3, 4));
         
         ShortMessage volumeMessage1 = new ShortMessage( );
@@ -94,14 +97,17 @@ public class Analisador
         return eventoMIDI;
     }
     
-    public static MidiEvent createSetTempoEvent(long tick, long tempo) {
+    
+    
+    //Esse trecho de código foi pego pronto, é utilizado para gerar um evento MIDI de alteração do BPM da música
+    public static MidiEvent createSetTempoEvent(long tick, long bpm) {
         // microseconds per quarternote
-        long mpqn = 60000000 / tempo;
+        long mpqn = 60000000 / bpm; //60000000  é o valor de ms para que  se passe um minuto na música, esse valor pode variar de acordo com o indice de ticks por batida
 
         MetaMessage metaMessage = new MetaMessage();
 
         // create the tempo byte array
-        byte[] array = new byte[] { 0, 0, 0 };
+        byte[] array = new byte[] { 0, 0, 0 }; // Cria array de bytes com valor mpqn  
 
         for (int i = 0; i < 3; i++) {
             int shift = (3 - 1 - i) * 8;
@@ -110,12 +116,13 @@ public class Analisador
 
         // now set the message
         try {
-            metaMessage.setMessage(81, array, 3);
+            metaMessage.setMessage(81, array, 3); // Cria meta mensagem de  alteração de bpm (tempo) 
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(1);
         }
 
-        return new MidiEvent(metaMessage, tick);
+        return new MidiEvent(metaMessage, tick); // Retorna o Evento MIDI criado
     }
+
 }

@@ -9,10 +9,10 @@ package GeradorDeMusicas;
  *
  * @author Augusto
  */
-public class Instrumentos {
-    static public int agogo = 114;
-    static public int cravo = 7;
-    static public int sinos = 15;
-    static public int flautaPan = 76;
-    static public int orgaoDeTubo = 20;
+public interface Instrumentos {
+    public static int AGOGO= 114;
+    public static int CRAVO = 7;
+    public static int SINOS = 15;
+    public static int FLAUTA_PAN = 76;
+    public static int ORGAO_DE_TUBO = 20;
 }
