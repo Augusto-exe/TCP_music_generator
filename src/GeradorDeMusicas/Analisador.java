@@ -23,19 +23,19 @@ public class Analisador implements Instrumentos , PadroesMusica //classe analisa
     {
         
         inicializaAtributos(bpmEntrada,volumeEntrada,oitavaEntrada,instrumentoEntrada);
+        
         try
         {
             
         sequenciaGerada = new Sequence(Sequence.PPQ, 4); // cria nova sequuencia com 4 ticks por batida
         Track musicaGerada = sequenciaGerada.createTrack();
         
-        ShortMessage sm = new ShortMessage( );
-        sm.setMessage(ShortMessage.PROGRAM_CHANGE, canal, AGOGO, velocidade);
-        musicaGerada.add(new MidiEvent(sm, 0));
+
+        musicaGerada.add(geraEventoMIDI(geraMensagemInstrumento(instrumentoAtual),0));
         
         
         ShortMessage volumeMessage = new ShortMessage( );
-        volumeMessage.setMessage( ShortMessage.CONTROL_CHANGE, canal, 7, (int)(0.3*127) );
+        volumeMessage.setMessage( ShortMessage.CONTROL_CHANGE, canal, 7, (int)(0.7*127) );
         musicaGerada.add(new MidiEvent(volumeMessage, 0));
         
         musicaGerada.add(geraEventoBPM(0, 40));
@@ -89,11 +89,20 @@ public class Analisador implements Instrumentos , PadroesMusica //classe analisa
     
         return mensagemMIDI;
     }
-    private ShortMessage geraMensagemInstrumento()
+    private ShortMessage geraMensagemInstrumento(int instrumento)
     {
         ShortMessage mensagemMIDI = new ShortMessage( );
-    
+        try
+        {
+            
+            mensagemMIDI.setMessage(ShortMessage.PROGRAM_CHANGE, canal, instrumento, velocidade);
+            
+        }
+        catch (Exception e) {
+            System.out.println(e);
+        }
         return mensagemMIDI;
+        
     }
     private ShortMessage geraMensagemVolume()
     {
@@ -102,8 +111,7 @@ public class Analisador implements Instrumentos , PadroesMusica //classe analisa
         return mensagemMIDI;
     }
     
-    
-    private MidiEvent geraEvento(ShortMessage mensagem, int ticks)
+    private MidiEvent geraEventoMIDI(ShortMessage mensagem, int ticks)
     {
         MidiEvent eventoMIDI =new MidiEvent(mensagem, ticks);
         
@@ -113,7 +121,7 @@ public class Analisador implements Instrumentos , PadroesMusica //classe analisa
     
     
     //Esse trecho de código foi pego pronto, é utilizado para gerar um evento MIDI de alteração do BPM da música
-    public static MidiEvent geraEventoBPM(long tick, long bpm) {
+    private MidiEvent geraEventoBPM(long tick, long bpm) {
         // microseconds per quarternote
         long mpqn = 60000000 / bpm; //60000000  é o valor de ms para que  se passe um minuto na música, esse valor pode variar de acordo com o indice de ticks por batida
 

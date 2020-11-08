@@ -12,9 +12,7 @@ package GeradorDeMusicas;
  * @author Augusto
  */
 public class Music_Generator 
-{
-
-    
+{ 
     /**
      * @param args the command line arguments
      */
