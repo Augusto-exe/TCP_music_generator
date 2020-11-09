@@ -22,17 +22,30 @@ public class Analisador implements Instrumentos , PadroesMusica //classe analisa
     public void geraMusica(String textoEntrada, int bpmEntrada, int volumeEntrada, int oitavaEntrada, int instrumentoEntrada)
     {
         
-        inicializaAtributos(bpmEntrada,volumeEntrada,oitavaEntrada,instrumentoEntrada);
+        int tamanhoTexto = textoEntrada.length();
+        char letraAtual, letraAnterior;
         
+        inicializaAtributos(bpmEntrada,volumeEntrada,oitavaEntrada,instrumentoEntrada);
         try
         {
             
         sequenciaGerada = new Sequence(Sequence.PPQ, 4); // cria nova sequuencia com 4 ticks por batida
         Track musicaGerada = sequenciaGerada.createTrack();
         
-
-        musicaGerada.add(geraEventoMIDI(geraMensagemInstrumento(instrumentoAtual),0));
+        incializaMusica();
         
+        for(int posTexto =0; posTexto <tamanhoTexto;posTexto++)
+        {
+            letraAtual  = textoEntrada.charAt(posTexto);
+            if(posTexto > 0)
+                letraAnterior  = textoEntrada.charAt(posTexto - 1);
+            
+            //GERAR EVENTO DE ACORDO COM LETRAATUAL E LETRAANTERIOR  PELO SWITCH
+            
+
+            //ADICIONAR EVENTO À TRACK
+        }
+
         
         ShortMessage volumeMessage = new ShortMessage( );
         volumeMessage.setMessage( ShortMessage.CONTROL_CHANGE, canal, 7, (int)(0.7*127) );
@@ -83,10 +96,20 @@ public class Analisador implements Instrumentos , PadroesMusica //classe analisa
     }
    
     
-    private ShortMessage geraMensagemNota()
+    private ShortMessage geraMensagemNota(boolean ligada, int Nota)
     {
         ShortMessage mensagemMIDI = new ShortMessage( );
-    
+        try
+        {
+            if(ligada)
+                mensagemMIDI.setMessage(ShortMessage.NOTE_ON, canal, Nota, velocidade);
+            else
+                mensagemMIDI.setMessage(ShortMessage.NOTE_OFF, canal, Nota, velocidade);
+            
+        }
+        catch (Exception e) {
+            System.out.println(e);
+        }
         return mensagemMIDI;
     }
     private ShortMessage geraMensagemInstrumento(int instrumento)
@@ -104,10 +127,19 @@ public class Analisador implements Instrumentos , PadroesMusica //classe analisa
         return mensagemMIDI;
         
     }
-    private ShortMessage geraMensagemVolume()
+    private ShortMessage geraMensagemVolume(int volume)
     {
         ShortMessage mensagemMIDI = new ShortMessage( );
-    
+        
+        try
+        {
+            
+            mensagemMIDI.setMessage( ShortMessage.CONTROL_CHANGE, canal, 7, volume );
+            
+        }
+        catch (Exception e) {
+            System.out.println(e);
+        }
         return mensagemMIDI;
     }
     
@@ -154,6 +186,11 @@ public class Analisador implements Instrumentos , PadroesMusica //classe analisa
         volume = volumeEntrada;
         instrumentoAtual = instrumentoEntrada;
         tickAtual = 0;
+        
+    }
+
+    private void incializaMusica() 
+    {
         
     }
 
