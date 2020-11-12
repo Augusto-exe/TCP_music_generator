@@ -13,7 +13,7 @@ import javax.sound.midi.*;
 public class Analisador extends PadroesMIDI implements  PadroesMusica  //classe analisador implementa as duas interfaces de constantes
 {
     
-    private int instrumentoAtual, oitavaAtual, oitavaPadrao, bpmAtual, volumeAtual, volumePadrao,notaAtual;
+    private int instrumentoAtual, oitavaAtual, oitavaPadrao, bpmAtual, volumeAtual, volumePadrao, notaAtual;
     private long tickAtual = 0;
     public Sequence sequenciaGerada;
     

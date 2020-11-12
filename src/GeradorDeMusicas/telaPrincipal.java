@@ -214,9 +214,9 @@ public class telaPrincipal extends javax.swing.JFrame
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private PlayerMusica playerMusica = new PlayerMusica();
-    private Analisador analisador = new Analisador();
-    private ManipuladorArquivos manipulador = new ManipuladorArquivos();
+    private final PlayerMusica playerMusica = new PlayerMusica();
+    private final Analisador analisador = new Analisador();
+    private final ManipuladorArquivos manipulador = new ManipuladorArquivos();
     
     private void botaoGeraMusicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoGeraMusicaActionPerformed
         //GERA MUSICA
@@ -246,6 +246,7 @@ public class telaPrincipal extends javax.swing.JFrame
         {
             File inputTextFile = fileChooserArquivoEntrada.getSelectedFile(); 
             textAreaTextoEntrada.setText(manipulador.preencheTextoBox(inputTextFile));
+            textAreaTextoEntrada.setCaretPosition(0);
         } 
     }//GEN-LAST:event_botaoInsereArquivoActionPerformed
 

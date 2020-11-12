@@ -4,41 +4,14 @@
  * and open the template in the editor.
  */
 package GeradorDeMusicas;
-import java.io.File;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.EventQueue;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import javax.sound.midi.MidiSystem;
-import javax.sound.midi.Sequencer;
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.filechooser.FileFilter;
-import java.io.*;
 import java.text.SimpleDateFormat;
-import java.util.*;
 import javax.sound.midi.*;
-import java.time.*;
-import java.time.format.DateTimeFormatter;
 import java.util.GregorianCalendar;
-import java.util.*;
-import java.text.*;
 import java.util.Locale;
 
 /**
@@ -69,14 +42,14 @@ public class ManipuladorArquivos
     
     public String preencheTextoBox(File inputTextFile)
     {
-        String  textfinal = null, text = null;
+        String  textfinal = null, linha = null;
         try (BufferedReader br = new BufferedReader( new FileReader (inputTextFile))) 
             {
                 //textAreaTextoEntrada.setText(null);
-                while ((text = br.readLine()) != null) 
+                while ((linha = br.readLine()) != null) 
                 {
-                    textfinal = text;
-                    textfinal = "\n";
+                    textfinal = textfinal + linha;
+                    textfinal = textfinal + "\n";
                 }
                 //textAreaTextoEntrada.setCaretPosition(0);
             } 
