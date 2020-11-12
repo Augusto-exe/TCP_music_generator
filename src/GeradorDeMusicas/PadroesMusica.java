@@ -27,6 +27,10 @@ public interface PadroesMusica {
     public static int NOTA_LA = 9;
     public static int NOTA_SI = 11;
     
+    public static int VOLUME_MAX = 127;
+    public static int OITAVA_MAX = 9;
+    public static int INSTRUMENTO_MAX = 128;
+    
     public boolean LIGA_NOTA = true;
     public boolean DESLIGA_NOTA = false;
 }

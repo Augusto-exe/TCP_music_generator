@@ -16,7 +16,7 @@ import javax.sound.midi.*;
 public class Analisador implements Instrumentos , PadroesMusica //classe analisador implementa as duas interfaces de constantes
 {
     private final static int canal =0,velocidade =100;
-    private int instrumentoAtual, oitavaAtual,oitavaPadrao, bpmAtual, volumeAtual,volumePadrao;
+    private int instrumentoAtual, oitavaAtual, oitavaPadrao, bpmAtual, volumeAtual, volumePadrao;
     private long tickAtual = 0;
     public Sequence sequenciaGerada;
     
@@ -63,8 +63,22 @@ public class Analisador implements Instrumentos , PadroesMusica //classe analisa
 
         }
 
+        insereNota(musicaGerada,45);
+        this.tickAtual++;
+        insereNota(musicaGerada,46);
+        this.tickAtual++;
+        insereNota(musicaGerada,47);
+        this.tickAtual++;
+        insereNota(musicaGerada,48);
+        this.tickAtual++;
+        insereNota(musicaGerada,49);
+        this.tickAtual++;
+        insereNota(musicaGerada,50);
+        this.tickAtual++;
+        insereNota(musicaGerada,51);
         
-
+        
+        /*
         ShortMessage sm3 = new ShortMessage( );
         sm3.setMessage(ShortMessage.PROGRAM_CHANGE, canal, ORGAO_DE_TUBO, velocidade);
         musicaGerada.add(new MidiEvent(sm3, 4));
@@ -88,7 +102,7 @@ public class Analisador implements Instrumentos , PadroesMusica //classe analisa
         ShortMessage sm7 = new ShortMessage( );
         sm7.setMessage(ShortMessage.NOTE_OFF, canal, 43, velocidade);
         musicaGerada.add(new MidiEvent(sm7, 12));
-        
+        */
         
         }
         catch (Exception e) {
@@ -186,8 +200,8 @@ public class Analisador implements Instrumentos , PadroesMusica //classe analisa
         this.oitavaAtual = oitavaEntrada;
         this.oitavaPadrao = oitavaEntrada;
         this.bpmAtual = bpmEntrada;
-        this.volumeAtual = volumeEntrada * 127 / 100;
-        this.volumePadrao = volumeEntrada * 127 / 100;
+        this.volumeAtual = volumeEntrada * VOLUME_MAX / 100;
+        this.volumePadrao = volumeEntrada * VOLUME_MAX / 100;
         this.instrumentoAtual = instrumentoEntrada;
         this.tickAtual = 0;
         
@@ -196,27 +210,72 @@ public class Analisador implements Instrumentos , PadroesMusica //classe analisa
     private void insereNota(Track musicaGerada, int nota)
     {
         ShortMessage mensagemLigaNota = geraMensagemNota(LIGA_NOTA,nota);
+        
+        System.out.println(mensagemLigaNota.getMessage());
+        
         musicaGerada.add( geraEventoMIDI(mensagemLigaNota,this.tickAtual) );
         
         this.tickAtual++;
         
         ShortMessage mensagemDesligaNota = geraMensagemNota(DESLIGA_NOTA,nota);
+        
+        System.out.println(mensagemDesligaNota.getMessage());
+        
         musicaGerada.add( geraEventoMIDI(mensagemDesligaNota,this.tickAtual) );
     }
     
     private void dobraVolume(Track musicaGerada)
     {
+        if((this.volumeAtual * 2) > VOLUME_MAX )
+        {
+            this.volumeAtual = this.volumePadrao;
+        }
+        else
+        {
+            this.volumeAtual = this.volumeAtual * 2;
+        }
+        
+        ShortMessage mensagemVolume = geraMensagemVolume(this.volumeAtual);
+        musicaGerada.add( geraEventoMIDI(mensagemVolume,this.tickAtual) );
         
     }
     
     private void incrementaOitava(Track musicaGerada)
-    {}
+    {
+        if((this.oitavaAtual + 1) > OITAVA_MAX )
+        {
+            this.oitavaAtual = this.oitavaAtual;
+        }
+        else
+        {
+            this.oitavaAtual = this.oitavaAtual + 1;
+        }
+        
+       
+    }
     
     private void incrementaInstrumento(Track musicaGerada)
-    {}
+    {
+        if((this.instrumentoAtual + 1) > INSTRUMENTO_MAX )
+        {
+            this.instrumentoAtual = INSTRUMENTO_MAX;
+        }
+        else
+        {
+            this.instrumentoAtual = this.instrumentoAtual + 1;
+        }
+        
+        ShortMessage mensagemInstrumento = geraMensagemInstrumento(this.instrumentoAtual);
+        musicaGerada.add( geraEventoMIDI(mensagemInstrumento,this.tickAtual) );
+    }
     
     private void defineInstrumento(Track musicaGerada)
-    {}
+    {
+        
+        ShortMessage mensagemInstrumento = geraMensagemInstrumento(this.instrumentoAtual);
+        musicaGerada.add( geraEventoMIDI(mensagemInstrumento,this.tickAtual) );
+    
+    }
     
     
     private void incializaMusica(Track musicaGerada) 
@@ -229,6 +288,8 @@ public class Analisador implements Instrumentos , PadroesMusica //classe analisa
         
         ShortMessage mensagemInstrumento = geraMensagemInstrumento(this.instrumentoAtual);
         musicaGerada.add( geraEventoMIDI(mensagemInstrumento,this.tickAtual) );
+        
+        
     }
 
 }
