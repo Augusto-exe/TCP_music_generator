@@ -13,99 +13,226 @@ import javax.sound.midi.*;
  *
  * @author Augusto
  */
-public class Analisador implements Instrumentos , PadroesMusica //classe analisador implementa as duas interfaces de constantes
+public class Analisador implements PadroesMIDI , PadroesMusica //classe analisador implementa as duas interfaces de constantes
 {
     private final static int canal =0,velocidade =100;
-    private int instrumentoAtual, oitavaAtual, bpmAtual, volume, tickAtual = 0;
+    private int instrumentoAtual, oitavaAtual, oitavaPadrao, bpmAtual, volumeAtual, volumePadrao,notaAtual;
+    private long tickAtual = 0;
     public Sequence sequenciaGerada;
     
     public void geraMusica(String textoEntrada, int bpmEntrada, int volumeEntrada, int oitavaEntrada, int instrumentoEntrada)
     {
         
+        int tamanhoTexto = textoEntrada.length();
+        int  tipoEvento;
+        char letraAtual, letraAnterior;
+        
         inicializaAtributos(bpmEntrada,volumeEntrada,oitavaEntrada,instrumentoEntrada);
+        
         try
         {
             
-        sequenciaGerada = new Sequence(Sequence.PPQ, 4); // cria nova sequuencia com 4 ticks por batida
-        Track musicaGerada = sequenciaGerada.createTrack();
-        
-        ShortMessage sm = new ShortMessage( );
-        sm.setMessage(ShortMessage.PROGRAM_CHANGE, canal, AGOGO, velocidade);
-        musicaGerada.add(new MidiEvent(sm, 0));
-        
-        
-        ShortMessage volumeMessage = new ShortMessage( );
-        volumeMessage.setMessage( ShortMessage.CONTROL_CHANGE, canal, 7, (int)(0.3*127) );
-        musicaGerada.add(new MidiEvent(volumeMessage, 0));
-        
-        musicaGerada.add(geraEventoBPM(0, 40));
-        
-        ShortMessage sm1 = new ShortMessage( );
-        sm1.setMessage(ShortMessage.NOTE_ON, canal, 45, velocidade);
-        musicaGerada.add(new MidiEvent(sm1, 1));
-        
-        musicaGerada.add(geraEventoBPM(5, 180));
-        
-        ShortMessage sm2 = new ShortMessage( );
-        sm2.setMessage(ShortMessage.NOTE_OFF, canal, 45, velocidade);
-        musicaGerada.add(new MidiEvent(sm2, 4));
+            sequenciaGerada = new Sequence(Sequence.PPQ, 4); // cria nova sequencia com 4 ticks por batida
+            Track musicaGerada = sequenciaGerada.createTrack();
 
-        ShortMessage sm3 = new ShortMessage( );
-        sm3.setMessage(ShortMessage.PROGRAM_CHANGE, canal, ORGAO_DE_TUBO, velocidade);
-        musicaGerada.add(new MidiEvent(sm3, 4));
-        
-        ShortMessage volumeMessage1 = new ShortMessage( );
-        volumeMessage1.setMessage( ShortMessage.CONTROL_CHANGE, canal, 7, (int)(0.8*127) );
-        musicaGerada.add(new MidiEvent(volumeMessage1, 5));
-        
-        ShortMessage sm4 = new ShortMessage( );
-        sm4.setMessage(ShortMessage.NOTE_ON, canal, 36, velocidade);
-        musicaGerada.add(new MidiEvent(sm4, 5));
-        
-        ShortMessage sm5 = new ShortMessage( );
-        sm5.setMessage(ShortMessage.NOTE_OFF, canal, 36, velocidade);
-        musicaGerada.add(new MidiEvent(sm5, 8));
-        
-        ShortMessage sm6 = new ShortMessage( );
-        sm6.setMessage(ShortMessage.NOTE_ON, canal, 43, velocidade);
-        musicaGerada.add(new MidiEvent(sm6, 9));
-        
-        ShortMessage sm7 = new ShortMessage( );
-        sm7.setMessage(ShortMessage.NOTE_OFF, canal, 43, velocidade);
-        musicaGerada.add(new MidiEvent(sm7, 12));
-        
-        
+            incializaMusica(musicaGerada);
+
+            for(int posTexto =0; posTexto < tamanhoTexto; posTexto++)
+            {
+                letraAtual  = textoEntrada.charAt(posTexto);
+                if(posTexto > 0)
+                    letraAnterior  = textoEntrada.charAt(posTexto - 1);
+
+                //ACHAR TIPO DO EVENTO DE ACORDO COM LETRA ATUAL E LETRA ANTERIOR  PELO SWITCH
+                tipoEvento = TOCA_NOTA;
+
+                //INSERE EVENTO NA TRACK DE ACORDO COM O TIPO DE EVENTO;
+                switch(tipoEvento)
+                {
+                    case TOCA_NOTA:
+                        insereNota(musicaGerada,this.notaAtual,this.oitavaAtual);
+                        this.tickAtual++;
+                        break;
+
+                    case DEFINE_INSTRUMENTO:
+                        defineInstrumento(musicaGerada);
+                        break;
+
+                    case INCREMENTA_INSTRUMENTO :
+                        incrementaInstrumento(musicaGerada,1);
+                        break;
+
+                    case DOBRA_VOLUME:
+                        dobraVolume(musicaGerada);
+                        break;
+
+                    case SILENCIO :
+                        this.tickAtual++;
+                        break;
+
+                    case AUMENTA_OITAVA:
+                        incrementaOitava();
+                        break;
+
+                    default:
+                        break;
+                }
+            }
         }
-        catch (Exception e) {
+        catch (Exception e) 
+        {
             System.out.println(e);
         }
 
     }
    
-    
-    private ShortMessage geraMensagemNota()
+
+    private void inicializaAtributos(int bpmEntrada, int volumeEntrada, int oitavaEntrada, int instrumentoEntrada)
     {
-        ShortMessage mensagemMIDI = new ShortMessage( );
+        
+        this.oitavaAtual = oitavaEntrada;
+        this.oitavaPadrao = oitavaEntrada;
+        this.bpmAtual = bpmEntrada;
+        this.volumeAtual = volumeEntrada * VOLUME_MAX / 100;
+        this.volumePadrao = volumeEntrada * VOLUME_MAX / 100;
+        this.instrumentoAtual = instrumentoEntrada;
+        this.tickAtual = 0;
+        
+    }
+
+    private void insereNota(Track musicaGerada, int nota,int oitava)
+    {
+        ShortMessage mensagemLigaNota = geraMensagemNota(LIGA_NOTA,nota,oitava);
+        
+        musicaGerada.add( geraEventoMIDI(mensagemLigaNota,this.tickAtual) );
+        
+        this.tickAtual++;
+        
+        ShortMessage mensagemDesligaNota = geraMensagemNota(DESLIGA_NOTA,nota,oitava);
+        
+        musicaGerada.add( geraEventoMIDI(mensagemDesligaNota,this.tickAtual) );
+    }
     
+    private void dobraVolume(Track musicaGerada)
+    {
+        if((this.volumeAtual * 2) > VOLUME_MAX )
+        {
+            this.volumeAtual = this.volumePadrao;
+        }
+        else
+        {
+            this.volumeAtual = this.volumeAtual * 2;
+        }
+        
+        ShortMessage mensagemVolume = geraMensagemVolume(this.volumeAtual);
+        musicaGerada.add( geraEventoMIDI(mensagemVolume,this.tickAtual) );
+        
+    }
+    
+    private void incrementaOitava()
+    {
+        if((this.oitavaAtual + 1) > OITAVA_MAX )
+        {
+            this.oitavaAtual = this.oitavaAtual;
+        }
+        else
+        {
+            this.oitavaAtual = this.oitavaAtual + 1;
+        }
+        
+       
+    }
+    
+    private void incrementaInstrumento(Track musicaGerada,int incremento)
+    {
+        if((this.instrumentoAtual + incremento) > INSTRUMENTO_MAX )
+        {
+            this.instrumentoAtual = INSTRUMENTO_MAX;
+        }
+        else
+        {
+            this.instrumentoAtual = this.instrumentoAtual + incremento;
+        }
+        
+        defineInstrumento(musicaGerada);
+    }
+    
+    private void defineInstrumento(Track musicaGerada)
+    {
+        
+        ShortMessage mensagemInstrumento = geraMensagemInstrumento(this.instrumentoAtual);
+        musicaGerada.add( geraEventoMIDI(mensagemInstrumento,this.tickAtual) );
+    
+    }
+    
+    
+    private void incializaMusica(Track musicaGerada) 
+    {
+                     
+        ShortMessage mensagemVolume = geraMensagemVolume(this.volumeAtual);
+        musicaGerada.add( geraEventoMIDI(mensagemVolume,this.tickAtual) );
+        
+        musicaGerada.add( geraEventoBPM(this.bpmAtual,this.tickAtual) );
+        
+        defineInstrumento(musicaGerada);
+        
+        
+        
+    }
+    
+     private ShortMessage geraMensagemNota(boolean ligaNota, int nota,int oitava)
+    {
+        nota = nota + oitava;
+        
+        ShortMessage mensagemMIDI = new ShortMessage( );
+        try
+        {
+            if(ligaNota)
+                mensagemMIDI.setMessage(ShortMessage.NOTE_ON, canal, nota, velocidade);
+            else
+                mensagemMIDI.setMessage(ShortMessage.NOTE_OFF, canal, nota, velocidade);
+            
+        }
+        catch (Exception e) {
+            System.out.println(e);
+        }
         return mensagemMIDI;
     }
-    private ShortMessage geraMensagemInstrumento()
+    
+    private ShortMessage geraMensagemInstrumento(int instrumento)
     {
         ShortMessage mensagemMIDI = new ShortMessage( );
-    
+        try
+        {
+            
+            mensagemMIDI.setMessage(ShortMessage.PROGRAM_CHANGE, canal, instrumento, velocidade);
+            
+        }
+        catch (Exception e) {
+            System.out.println(e);
+        }
         return mensagemMIDI;
+        
     }
-    private ShortMessage geraMensagemVolume()
+    private ShortMessage geraMensagemVolume(int volume)
     {
         ShortMessage mensagemMIDI = new ShortMessage( );
-    
+        
+        try
+        {
+            
+            mensagemMIDI.setMessage( ShortMessage.CONTROL_CHANGE, canal, 7, volume );
+            
+        }
+        catch (Exception e) {
+            System.out.println(e);
+        }
         return mensagemMIDI;
     }
     
-    
-    private MidiEvent geraEvento(ShortMessage mensagem, int ticks)
+    private MidiEvent geraEventoMIDI(ShortMessage mensagem, long tick)
     {
-        MidiEvent eventoMIDI =new MidiEvent(mensagem, ticks);
+        MidiEvent eventoMIDI =new MidiEvent(mensagem, tick);
         
         return eventoMIDI;
     }
@@ -113,7 +240,7 @@ public class Analisador implements Instrumentos , PadroesMusica //classe analisa
     
     
     //Esse trecho de código foi pego pronto, é utilizado para gerar um evento MIDI de alteração do BPM da música
-    public static MidiEvent geraEventoBPM(long tick, long bpm) {
+    private MidiEvent geraEventoBPM(long bpm,long tick) {
         // microseconds per quarternote
         long mpqn = 60000000 / bpm; //60000000  é o valor de ms para que  se passe um minuto na música, esse valor pode variar de acordo com o indice de ticks por batida
 
@@ -136,17 +263,6 @@ public class Analisador implements Instrumentos , PadroesMusica //classe analisa
         }
 
         return new MidiEvent(metaMessage, tick); // Retorna o Evento MIDI criado
-    }
-
-    private void inicializaAtributos(int bpmEntrada, int volumeEntrada, int oitavaEntrada, int instrumentoEntrada)
-    {
-        
-        oitavaAtual = oitavaEntrada;
-        bpmAtual = bpmEntrada;
-        volume = volumeEntrada;
-        instrumentoAtual = instrumentoEntrada;
-        tickAtual = 0;
-        
     }
 
 }
