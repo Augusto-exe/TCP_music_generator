@@ -16,7 +16,7 @@ import javax.sound.midi.*;
 public class Analisador implements Instrumentos , PadroesMusica //classe analisador implementa as duas interfaces de constantes
 {
     private final static int canal =0,velocidade =100;
-    private int instrumentoAtual, oitavaAtual, oitavaPadrao, bpmAtual, volumeAtual, volumePadrao;
+    private int instrumentoAtual, oitavaAtual, oitavaPadrao, bpmAtual, volumeAtual, volumePadrao,notaAtual;
     private long tickAtual = 0;
     public Sequence sequenciaGerada;
     
@@ -32,88 +32,65 @@ public class Analisador implements Instrumentos , PadroesMusica //classe analisa
         try
         {
             
-        sequenciaGerada = new Sequence(Sequence.PPQ, 4); // cria nova sequencia com 4 ticks por batida
-        Track musicaGerada = sequenciaGerada.createTrack();
-        
-        incializaMusica(musicaGerada);
-        
-        for(int posTexto =0; posTexto < tamanhoTexto; posTexto++)
-        {
-            letraAtual  = textoEntrada.charAt(posTexto);
-            if(posTexto > 0)
-                letraAnterior  = textoEntrada.charAt(posTexto - 1);
-            
-            //ACHAR TIPO DO EVENTO DE ACORDO COM LETRA ATUAL E LETRA ANTERIOR  PELO SWITCH
-            tipoEvento = TOCA_NOTA;
+            sequenciaGerada = new Sequence(Sequence.PPQ, 4); // cria nova sequencia com 4 ticks por batida
+            Track musicaGerada = sequenciaGerada.createTrack();
 
-            //INSERE EVENTO NA TRACK DE ACORDO COM O TIPO DE EVENTO;
-            switch(tipoEvento)
+            incializaMusica(musicaGerada);
+
+            for(int posTexto =0; posTexto < tamanhoTexto; posTexto++)
             {
-                case TOCA_NOTA:
-                case DEFINE_INSTRUMENTO:
-                case INCREMENTA_INSTRUMENTO :
-                case DOBRA_VOLUME:
-                case SILENCIO :     
-                case AUMENTA_OITAVA:
-                default:
-                    break;
-            }
-            
-            this.tickAtual++;
+                letraAtual  = textoEntrada.charAt(posTexto);
+                if(posTexto > 0)
+                    letraAnterior  = textoEntrada.charAt(posTexto - 1);
 
+                //ACHAR TIPO DO EVENTO DE ACORDO COM LETRA ATUAL E LETRA ANTERIOR  PELO SWITCH
+                tipoEvento = TOCA_NOTA;
+
+                //INSERE EVENTO NA TRACK DE ACORDO COM O TIPO DE EVENTO;
+                switch(tipoEvento)
+                {
+                    case TOCA_NOTA:
+                        insereNota(musicaGerada,this.notaAtual,this.oitavaAtual);
+                        this.tickAtual++;
+                        break;
+
+                    case DEFINE_INSTRUMENTO:
+                        defineInstrumento(musicaGerada);
+                        break;
+
+                    case INCREMENTA_INSTRUMENTO :
+                        incrementaInstrumento(musicaGerada,1);
+                        break;
+
+                    case DOBRA_VOLUME:
+                        dobraVolume(musicaGerada);
+                        break;
+
+                    case SILENCIO :
+                        this.tickAtual++;
+                        break;
+
+                    case AUMENTA_OITAVA:
+                        incrementaOitava();
+                        break;
+
+                    default:
+                        break;
+                }
+            }
         }
-        
-        insereNota(musicaGerada,45);
-        this.tickAtual++;
-        insereNota(musicaGerada,46);
-        this.tickAtual++;
-        insereNota(musicaGerada,47);
-        this.tickAtual++;
-        insereNota(musicaGerada,48);
-        this.tickAtual++;
-        insereNota(musicaGerada,49);
-        this.tickAtual++;
-        insereNota(musicaGerada,50);
-        this.tickAtual++;
-        insereNota(musicaGerada,51);
-        
-        
-        /*
-        ShortMessage sm3 = new ShortMessage( );
-        sm3.setMessage(ShortMessage.PROGRAM_CHANGE, canal, ORGAO_DE_TUBO, velocidade);
-        musicaGerada.add(new MidiEvent(sm3, 4));
-        
-        ShortMessage volumeMessage1 = new ShortMessage( );
-        volumeMessage1.setMessage( ShortMessage.CONTROL_CHANGE, canal, 7, (int)(0.8*127) );
-        musicaGerada.add(new MidiEvent(volumeMessage1, 5));
-        
-        ShortMessage sm4 = new ShortMessage( );
-        sm4.setMessage(ShortMessage.NOTE_ON, canal, 36, velocidade);
-        musicaGerada.add(new MidiEvent(sm4, 5));
-        
-        ShortMessage sm5 = new ShortMessage( );
-        sm5.setMessage(ShortMessage.NOTE_OFF, canal, 36, velocidade);
-        musicaGerada.add(new MidiEvent(sm5, 8));
-        
-        ShortMessage sm6 = new ShortMessage( );
-        sm6.setMessage(ShortMessage.NOTE_ON, canal, 43, velocidade);
-        musicaGerada.add(new MidiEvent(sm6, 9));
-        
-        ShortMessage sm7 = new ShortMessage( );
-        sm7.setMessage(ShortMessage.NOTE_OFF, canal, 43, velocidade);
-        musicaGerada.add(new MidiEvent(sm7, 12));
-        */
-        
-        }
-        catch (Exception e) {
+        catch (Exception e) 
+        {
             System.out.println(e);
         }
 
     }
    
     
-    private ShortMessage geraMensagemNota(boolean ligaNota, int nota)
+    private ShortMessage geraMensagemNota(boolean ligaNota, int nota,int oitava)
     {
+        nota = nota + oitava;
+        
         ShortMessage mensagemMIDI = new ShortMessage( );
         try
         {
@@ -128,6 +105,7 @@ public class Analisador implements Instrumentos , PadroesMusica //classe analisa
         }
         return mensagemMIDI;
     }
+    
     private ShortMessage geraMensagemInstrumento(int instrumento)
     {
         ShortMessage mensagemMIDI = new ShortMessage( );
@@ -207,15 +185,15 @@ public class Analisador implements Instrumentos , PadroesMusica //classe analisa
         
     }
 
-    private void insereNota(Track musicaGerada, int nota)
+    private void insereNota(Track musicaGerada, int nota,int oitava)
     {
-        ShortMessage mensagemLigaNota = geraMensagemNota(LIGA_NOTA,nota);
+        ShortMessage mensagemLigaNota = geraMensagemNota(LIGA_NOTA,nota,oitava);
         
         musicaGerada.add( geraEventoMIDI(mensagemLigaNota,this.tickAtual) );
         
         this.tickAtual++;
         
-        ShortMessage mensagemDesligaNota = geraMensagemNota(DESLIGA_NOTA,nota);
+        ShortMessage mensagemDesligaNota = geraMensagemNota(DESLIGA_NOTA,nota,oitava);
         
         musicaGerada.add( geraEventoMIDI(mensagemDesligaNota,this.tickAtual) );
     }
@@ -236,7 +214,7 @@ public class Analisador implements Instrumentos , PadroesMusica //classe analisa
         
     }
     
-    private void incrementaOitava(Track musicaGerada)
+    private void incrementaOitava()
     {
         if((this.oitavaAtual + 1) > OITAVA_MAX )
         {
@@ -250,19 +228,18 @@ public class Analisador implements Instrumentos , PadroesMusica //classe analisa
        
     }
     
-    private void incrementaInstrumento(Track musicaGerada)
+    private void incrementaInstrumento(Track musicaGerada,int incremento)
     {
-        if((this.instrumentoAtual + 1) > INSTRUMENTO_MAX )
+        if((this.instrumentoAtual + incremento) > INSTRUMENTO_MAX )
         {
             this.instrumentoAtual = INSTRUMENTO_MAX;
         }
         else
         {
-            this.instrumentoAtual = this.instrumentoAtual + 1;
+            this.instrumentoAtual = this.instrumentoAtual + incremento;
         }
         
-        ShortMessage mensagemInstrumento = geraMensagemInstrumento(this.instrumentoAtual);
-        musicaGerada.add( geraEventoMIDI(mensagemInstrumento,this.tickAtual) );
+        defineInstrumento(musicaGerada);
     }
     
     private void defineInstrumento(Track musicaGerada)
@@ -282,8 +259,7 @@ public class Analisador implements Instrumentos , PadroesMusica //classe analisa
         
         musicaGerada.add( geraEventoBPM(this.bpmAtual,this.tickAtual) );
         
-        ShortMessage mensagemInstrumento = geraMensagemInstrumento(this.instrumentoAtual);
-        musicaGerada.add( geraEventoMIDI(mensagemInstrumento,this.tickAtual) );
+        defineInstrumento(musicaGerada);
         
         
         
