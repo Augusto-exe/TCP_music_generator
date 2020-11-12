@@ -332,22 +332,22 @@ public class telaPrincipal extends javax.swing.JFrame {
         {
             case 0:
             case 1:
-                instrumento = Instrumentos.AGOGO;
+                instrumento = PadroesMIDI.AGOGO;
                 break;
             case 2:
-                instrumento = Instrumentos.CRAVO;
+                instrumento = PadroesMIDI.CRAVO;
                 break;
             case 3:
-                instrumento = Instrumentos.SINOS;
+                instrumento = PadroesMIDI.SINOS;
                 break;
             case 4:
-                instrumento = Instrumentos.FLAUTA_PAN;
+                instrumento = PadroesMIDI.FLAUTA_PAN;
                 break;
             case 5:
-                instrumento = Instrumentos.ORGAO_DE_TUBO;
+                instrumento = PadroesMIDI.ORGAO_DE_TUBO;
                 break;
             default:
-                instrumento = Instrumentos.AGOGO;
+                instrumento = PadroesMIDI.AGOGO;
                 break;
         }
         return instrumento;
