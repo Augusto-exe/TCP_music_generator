@@ -211,15 +211,11 @@ public class Analisador implements Instrumentos , PadroesMusica //classe analisa
     {
         ShortMessage mensagemLigaNota = geraMensagemNota(LIGA_NOTA,nota);
         
-        System.out.println(mensagemLigaNota.getMessage());
-        
         musicaGerada.add( geraEventoMIDI(mensagemLigaNota,this.tickAtual) );
         
         this.tickAtual++;
         
         ShortMessage mensagemDesligaNota = geraMensagemNota(DESLIGA_NOTA,nota);
-        
-        System.out.println(mensagemDesligaNota.getMessage());
         
         musicaGerada.add( geraEventoMIDI(mensagemDesligaNota,this.tickAtual) );
     }
