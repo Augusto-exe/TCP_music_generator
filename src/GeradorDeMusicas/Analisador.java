@@ -4,18 +4,15 @@
  * and open the template in the editor.
  */
 package GeradorDeMusicas;
-import java.io.*;
-import java.util.*;
-import javax.sound.sampled.*;
 import javax.sound.midi.*;
 
 /**
  *
  * @author Augusto
  */
-public class Analisador implements PadroesMIDI , PadroesMusica //classe analisador implementa as duas interfaces de constantes
+public class Analisador extends PadroesMIDI implements  PadroesMusica  //classe analisador implementa as duas interfaces de constantes
 {
-    private final static int canal =0,velocidade =100;
+    
     private int instrumentoAtual, oitavaAtual, oitavaPadrao, bpmAtual, volumeAtual, volumePadrao,notaAtual;
     private long tickAtual = 0;
     public Sequence sequenciaGerada;
@@ -45,7 +42,8 @@ public class Analisador implements PadroesMIDI , PadroesMusica //classe analisad
 
                 //ACHAR TIPO DO EVENTO DE ACORDO COM LETRA ATUAL E LETRA ANTERIOR  PELO SWITCH
                 tipoEvento = TOCA_NOTA;
-
+                this.notaAtual = NOTA_LA;
+                
                 //INSERE EVENTO NA TRACK DE ACORDO COM O TIPO DE EVENTO;
                 switch(tipoEvento)
                 {
@@ -178,91 +176,6 @@ public class Analisador implements PadroesMIDI , PadroesMusica //classe analisad
         
         
         
-    }
-    
-     private ShortMessage geraMensagemNota(boolean ligaNota, int nota,int oitava)
-    {
-        nota = nota + oitava;
-        
-        ShortMessage mensagemMIDI = new ShortMessage( );
-        try
-        {
-            if(ligaNota)
-                mensagemMIDI.setMessage(ShortMessage.NOTE_ON, canal, nota, velocidade);
-            else
-                mensagemMIDI.setMessage(ShortMessage.NOTE_OFF, canal, nota, velocidade);
-            
-        }
-        catch (Exception e) {
-            System.out.println(e);
-        }
-        return mensagemMIDI;
-    }
-    
-    private ShortMessage geraMensagemInstrumento(int instrumento)
-    {
-        ShortMessage mensagemMIDI = new ShortMessage( );
-        try
-        {
-            
-            mensagemMIDI.setMessage(ShortMessage.PROGRAM_CHANGE, canal, instrumento, velocidade);
-            
-        }
-        catch (Exception e) {
-            System.out.println(e);
-        }
-        return mensagemMIDI;
-        
-    }
-    private ShortMessage geraMensagemVolume(int volume)
-    {
-        ShortMessage mensagemMIDI = new ShortMessage( );
-        
-        try
-        {
-            
-            mensagemMIDI.setMessage( ShortMessage.CONTROL_CHANGE, canal, 7, volume );
-            
-        }
-        catch (Exception e) {
-            System.out.println(e);
-        }
-        return mensagemMIDI;
-    }
-    
-    private MidiEvent geraEventoMIDI(ShortMessage mensagem, long tick)
-    {
-        MidiEvent eventoMIDI =new MidiEvent(mensagem, tick);
-        
-        return eventoMIDI;
-    }
-    
-    
-    
-    //Esse trecho de código foi pego pronto, é utilizado para gerar um evento MIDI de alteração do BPM da música
-    private MidiEvent geraEventoBPM(long bpm,long tick) {
-        // microseconds per quarternote
-        long mpqn = 60000000 / bpm; //60000000  é o valor de ms para que  se passe um minuto na música, esse valor pode variar de acordo com o indice de ticks por batida
-
-        MetaMessage metaMessage = new MetaMessage();
-
-        // create the tempo byte array
-        byte[] array = new byte[] { 0, 0, 0 }; // Cria array de bytes com valor mpqn  
-
-        for (int i = 0; i < 3; i++) {
-            int shift = (3 - 1 - i) * 8;
-            array[i] = (byte) (mpqn >> shift);
-        }
-
-        // now set the message
-        try {
-            metaMessage.setMessage(81, array, 3); // Cria meta mensagem de  alteração de bpm (tempo) 
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
-
-        return new MidiEvent(metaMessage, tick); // Retorna o Evento MIDI criado
-    }
+    }   
 
 }
