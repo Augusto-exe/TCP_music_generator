@@ -5,41 +5,17 @@
  */
 package GeradorDeMusicas;
 import java.io.File;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.EventQueue;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import javax.sound.midi.MidiSystem;
-import javax.sound.midi.Sequencer;
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.filechooser.FileFilter;
 /**
  *
  * @author Augusto
  */
-public class telaPrincipal extends javax.swing.JFrame {
-
+public class telaPrincipal extends javax.swing.JFrame 
+{
     /**
      * Creates new form telaPrincipal
      */
-    public telaPrincipal() {
+    public telaPrincipal() 
+    {
         initComponents();
     }
 
@@ -111,6 +87,7 @@ public class telaPrincipal extends javax.swing.JFrame {
         });
 
         comboBoxInstrumento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione um Instrumento", "Agogô", "Cravo", "Sinos", "Flauta Pan", "Orgão de Tubo" }));
+        comboBoxInstrumento.setToolTipText("");
         comboBoxInstrumento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboBoxInstrumentoActionPerformed(evt);
@@ -239,6 +216,7 @@ public class telaPrincipal extends javax.swing.JFrame {
 
     private PlayerMusica playerMusica = new PlayerMusica();
     private Analisador analisador = new Analisador();
+    private ManipuladorArquivos manipulador = new ManipuladorArquivos();
     
     private void botaoGeraMusicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoGeraMusicaActionPerformed
         //GERA MUSICA
@@ -264,32 +242,15 @@ public class telaPrincipal extends javax.swing.JFrame {
 
     private void botaoInsereArquivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoInsereArquivoActionPerformed
 
-        
         if (fileChooserArquivoEntrada.showOpenDialog(this) == javax.swing.JFileChooser.APPROVE_OPTION) 
         {
-            File inputTextFile = fileChooserArquivoEntrada.getSelectedFile();
-
-            try (BufferedReader br = new BufferedReader( new FileReader (inputTextFile))) 
-            {
-                textAreaTextoEntrada.setText(null);
-                String text = null;
-                while ((text = br.readLine()) != null) 
-                {
-                    textAreaTextoEntrada.append(text);
-                    textAreaTextoEntrada.append("\n");
-                }
-                textAreaTextoEntrada.setCaretPosition(0);
-            } 
-            catch (IOException exp) 
-            {
-                exp.printStackTrace();
-
-            }
+            File inputTextFile = fileChooserArquivoEntrada.getSelectedFile(); 
+            textAreaTextoEntrada.setText(manipulador.preencheTextoBox(inputTextFile));
         } 
     }//GEN-LAST:event_botaoInsereArquivoActionPerformed
 
     private void botaoSalvarSaidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoSalvarSaidaActionPerformed
-        // TODO add your handling code here:
+        manipulador.midiFileSalva(analisador.sequenciaGerada);
     }//GEN-LAST:event_botaoSalvarSaidaActionPerformed
 
     private void botaoPlayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoPlayActionPerformed
@@ -319,10 +280,11 @@ public class telaPrincipal extends javax.swing.JFrame {
         botaoPlay.setEnabled(false);
         botaoPause.setEnabled(false);
         botaoSalvarSaida.setEnabled(false);
+        playerMusica.reset();
     }//GEN-LAST:event_botaoCancelaActionPerformed
 
     private void comboBoxInstrumentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxInstrumentoActionPerformed
-
+        
     }//GEN-LAST:event_comboBoxInstrumentoActionPerformed
 
     private int seletorInstrumento(int indiceInstrumento)

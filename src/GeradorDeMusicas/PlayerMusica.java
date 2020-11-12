@@ -68,4 +68,15 @@ public class PlayerMusica
         return player.getTickPosition() >= player.getTickLength();
     }
 
+    public void reset()
+    {
+        try
+        {
+            player.setTickPosition(0);
+        }
+        catch (Exception e)
+        {
+            System.out.println(e);
+        }
+    }
 }
