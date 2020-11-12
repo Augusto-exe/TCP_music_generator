@@ -157,7 +157,7 @@ public class Analisador implements PadroesMIDI, PadroesMusica //classe analisado
     }
 
     private ShortMessage geraMensagemNota(boolean ligaNota, int nota, int oitava) {
-        nota = nota + oitava;
+        nota = nota + 12*oitava;
 
         ShortMessage mensagemMIDI = new ShortMessage();
         try {
