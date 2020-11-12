@@ -62,7 +62,7 @@ public class Analisador implements Instrumentos , PadroesMusica //classe analisa
             this.tickAtual++;
 
         }
-
+        
         insereNota(musicaGerada,45);
         this.tickAtual++;
         insereNota(musicaGerada,46);
@@ -288,6 +288,7 @@ public class Analisador implements Instrumentos , PadroesMusica //classe analisa
         
         ShortMessage mensagemInstrumento = geraMensagemInstrumento(this.instrumentoAtual);
         musicaGerada.add( geraEventoMIDI(mensagemInstrumento,this.tickAtual) );
+        
         
         
     }

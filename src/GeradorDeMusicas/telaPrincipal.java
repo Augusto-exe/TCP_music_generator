@@ -252,7 +252,7 @@ public class telaPrincipal extends javax.swing.JFrame {
         instrumento = seletorInstrumento(indiceInstrumento);
         
         
-        analisador.geraMusica(textAreaTextoEntrada.getText(),bpm,oitava,volume,instrumento);
+        analisador.geraMusica(textAreaTextoEntrada.getText(),bpm,volume,oitava,instrumento);
         playerMusica.setSequencia(analisador.sequenciaGerada);
         
         botaoCancela.setEnabled(true);
