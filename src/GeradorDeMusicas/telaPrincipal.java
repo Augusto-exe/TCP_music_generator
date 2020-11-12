@@ -105,7 +105,7 @@ public class telaPrincipal extends javax.swing.JFrame
         spinnerVolume.setModel(new javax.swing.SpinnerNumberModel(50, 0, 100, 1));
         spinnerVolume.setValue(50);
 
-        spinnerOitava.setModel(new javax.swing.SpinnerNumberModel(1, 0, 9, 1));
+        spinnerOitava.setModel(new javax.swing.SpinnerNumberModel(4, 0, 9, 1));
 
         jLabel4.setFont(new java.awt.Font("Ubuntu", 1, 24)); // NOI18N
         jLabel4.setText("Entrada de Texto:");

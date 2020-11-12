@@ -21,7 +21,7 @@ public class Analisador extends PadroesMIDI implements  PadroesMusica  //classe 
 
         int tamanhoTexto = textoEntrada.length();
         int tipoEvento;
-        char letraAtual, letraAnterior;
+        char letraAtual, letraAnterior = 'z';
 
         inicializaAtributos(bpmEntrada, volumeEntrada, oitavaEntrada, instrumentoEntrada);
 
@@ -39,8 +39,8 @@ public class Analisador extends PadroesMIDI implements  PadroesMusica  //classe 
                 }
 
                 //ACHAR TIPO DO EVENTO DE ACORDO COM LETRA ATUAL E LETRA ANTERIOR  PELO SWITCH
-                tipoEvento = TOCA_NOTA;
-                this.notaAtual = NOTA_LA;
+                
+                tipoEvento = leCaractere(letraAtual, letraAnterior);
                 
                 //INSERE EVENTO NA TRACK DE ACORDO COM O TIPO DE EVENTO;
                 switch (tipoEvento) {
