@@ -1,21 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package GeradorDeMusicas;
+
 import javax.sound.midi.*;
 
-/**
- *
- * @author Augusto
- */
+
 public class Analisador extends PadroesMIDI implements  PadroesMusica  //classe analisador implementa as duas interfaces de constantes
 {
     
-    private int instrumentoAtual, oitavaAtual, oitavaPadrao, bpmAtual, volumeAtual, volumePadrao, notaAtual;
+    private int instrumentoAtual, oitavaAtual, oitavaPadrao, bpmAtual, volumeAtual, volumePadrao, notaAtual, instrumentoPadrao;
     private long tickAtual = 0;
     public Sequence sequenciaGerada;
+    
 
     public void geraMusica(String textoEntrada, int bpmEntrada, int volumeEntrada, int oitavaEntrada, int instrumentoEntrada) {
 
@@ -38,7 +32,6 @@ public class Analisador extends PadroesMIDI implements  PadroesMusica  //classe 
                     letraAnterior = textoEntrada.charAt(posTexto - 1);
                 }
 
-                //ACHAR TIPO DO EVENTO DE ACORDO COM LETRA ATUAL E LETRA ANTERIOR  PELO SWITCH
                 tipoEvento = leCaractere(letraAtual, letraAnterior);
 
                 //INSERE EVENTO NA TRACK DE ACORDO COM O TIPO DE EVENTO;
