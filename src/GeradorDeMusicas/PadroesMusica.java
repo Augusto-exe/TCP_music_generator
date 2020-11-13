@@ -17,10 +17,9 @@ public interface PadroesMusica {
     
     public static int TOCA_NOTA= 1;
     public static int DEFINE_INSTRUMENTO =2;
-    public static int INCREMENTA_INSTRUMENTO = 3;
-    public static int DOBRA_VOLUME = 4;
-    public static int SILENCIO = 5;
-    public static int AUMENTA_OITAVA = 6;
+    public static int DOBRA_VOLUME = 3;
+    public static int SILENCIO = 4;
+    public static int AUMENTA_OITAVA = 5;
     
     public static int SELECAO_NOTA = 0;
     public static int SELECAO_INSTRUMENTO = 1;

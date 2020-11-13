@@ -13,7 +13,7 @@ import javax.sound.midi.*;
 public class Analisador extends PadroesMIDI implements  PadroesMusica  //classe analisador implementa as duas interfaces de constantes
 {
     
-    private int instrumentoAtual, oitavaAtual, oitavaPadrao, bpmAtual, volumeAtual, volumePadrao, notaAtual;
+    private int instrumentoAtual,instrumentoPadrao, oitavaAtual, oitavaPadrao, bpmAtual, volumeAtual, volumePadrao, notaAtual;
     private long tickAtual = 0;
     public Sequence sequenciaGerada;
 
@@ -27,21 +27,22 @@ public class Analisador extends PadroesMIDI implements  PadroesMusica  //classe 
 
         try {
 
-            sequenciaGerada = new Sequence(Sequence.PPQ, 4); // cria nova sequencia com 4 ticks por batida
+            sequenciaGerada = new Sequence(Sequence.PPQ, 4); // Cria nova sequencia MIDI com 4 ticks por batida
             Track musicaGerada = sequenciaGerada.createTrack();
 
             incializaMusica(musicaGerada);
 
+            //Percore o texto definindo caractere atual e anterior.
             for (int posTexto = 0; posTexto < tamanhoTexto; posTexto++) {
                 letraAtual = textoEntrada.charAt(posTexto);
                 if (posTexto > 0) {
                     letraAnterior = textoEntrada.charAt(posTexto - 1);
                 }
 
-                //ACHAR TIPO DO EVENTO DE ACORDO COM LETRA ATUAL E LETRA ANTERIOR  PELO SWITCH
-                tipoEvento = leCaractere(letraAtual, letraAnterior);
+                //Busca qual ação deve ser executada de acordo com a combinação de caracteres
+                tipoEvento = buscaAcao(letraAtual, letraAnterior);
 
-                //INSERE EVENTO NA TRACK DE ACORDO COM O TIPO DE EVENTO;
+                //Insere evento na sequencia de Acordo com a ação desejada
                 switch (tipoEvento) {
                     case TOCA_NOTA:
                         insereNota(musicaGerada, this.notaAtual, this.oitavaAtual);
@@ -49,11 +50,7 @@ public class Analisador extends PadroesMIDI implements  PadroesMusica  //classe 
                         break;
 
                     case DEFINE_INSTRUMENTO:
-                        defineInstrumento(musicaGerada);
-                        break;
-
-                    case INCREMENTA_INSTRUMENTO:
-                        incrementaInstrumento(musicaGerada, 1);
+                        defineInstrumento(musicaGerada,this.instrumentoAtual);
                         break;
 
                     case DOBRA_VOLUME:
@@ -124,19 +121,9 @@ public class Analisador extends PadroesMIDI implements  PadroesMusica  //classe 
 
     }
 
-    private void incrementaInstrumento(Track musicaGerada, int incremento) {
-        if ((this.instrumentoAtual + incremento) > INSTRUMENTO_MAX) {
-            this.instrumentoAtual = INSTRUMENTO_MAX;
-        } else {
-            this.instrumentoAtual = this.instrumentoAtual + incremento;
-        }
+    private void defineInstrumento(Track musicaGerada,int instrumento) {
 
-        defineInstrumento(musicaGerada);
-    }
-
-    private void defineInstrumento(Track musicaGerada) {
-
-        ShortMessage mensagemInstrumento = geraMensagemInstrumento(this.instrumentoAtual);
+        ShortMessage mensagemInstrumento = geraMensagemInstrumento(instrumento);
         musicaGerada.add(geraEventoMIDI(mensagemInstrumento, this.tickAtual));
 
     }
@@ -148,14 +135,14 @@ public class Analisador extends PadroesMIDI implements  PadroesMusica  //classe 
 
         musicaGerada.add(geraEventoBPM(this.bpmAtual, this.tickAtual));
 
-        defineInstrumento(musicaGerada);
+        defineInstrumento(musicaGerada,this.instrumentoAtual);
         
         
         
     }   
 
 
-    public int leCaractere(char letraAtual, char letraAnterior) {
+    public int buscaAcao(char letraAtual, char letraAnterior) {
 
         int instrucao = 0;
 

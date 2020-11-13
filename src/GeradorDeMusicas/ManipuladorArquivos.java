@@ -45,13 +45,13 @@ public class ManipuladorArquivos
         String  textfinal = null, linha = null;
         try (BufferedReader br = new BufferedReader( new FileReader (inputTextFile))) 
             {
-                //textAreaTextoEntrada.setText(null);
+                
                 while ((linha = br.readLine()) != null) 
                 {
                     textfinal = textfinal + linha;
                     textfinal = textfinal + "\n";
                 }
-                //textAreaTextoEntrada.setCaretPosition(0);
+                
             } 
             catch (IOException exp) 
             {

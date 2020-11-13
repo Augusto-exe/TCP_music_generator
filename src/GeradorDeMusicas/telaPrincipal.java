@@ -233,10 +233,7 @@ public class telaPrincipal extends javax.swing.JFrame
         analisador.geraMusica(textAreaTextoEntrada.getText(),bpm,volume,oitava,instrumento);
         playerMusica.setSequencia(analisador.sequenciaGerada);
         
-        botaoCancela.setEnabled(true);
-        botaoPlay.setEnabled(true);
-        botaoPause.setEnabled(true);
-        botaoSalvarSaida.setEnabled(true);
+        setEnableBotoesMusica(true);
         
     }//GEN-LAST:event_botaoGeraMusicaActionPerformed
 
@@ -244,8 +241,8 @@ public class telaPrincipal extends javax.swing.JFrame
 
         if (fileChooserArquivoEntrada.showOpenDialog(this) == javax.swing.JFileChooser.APPROVE_OPTION) 
         {
-            File inputTextFile = fileChooserArquivoEntrada.getSelectedFile(); 
-            textAreaTextoEntrada.setText(manipulador.preencheTextoBox(inputTextFile));
+            File arquivoDeEntrada = fileChooserArquivoEntrada.getSelectedFile(); 
+            textAreaTextoEntrada.setText(manipulador.preencheTextoBox(arquivoDeEntrada));
             textAreaTextoEntrada.setCaretPosition(0);
         } 
     }//GEN-LAST:event_botaoInsereArquivoActionPerformed
@@ -256,13 +253,9 @@ public class telaPrincipal extends javax.swing.JFrame
 
     private void botaoPlayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoPlayActionPerformed
         playerMusica.play();
-        botaoGeraMusica.setEnabled(false);
-        spinnerBPM.setEnabled(false);
-        spinnerOitava.setEnabled(false);
-        spinnerVolume.setEnabled(false);
-        comboBoxInstrumento.setEnabled(false);
-        botaoInsereArquivo.setEnabled(false);
-        textAreaTextoEntrada.setEnabled(false);
+        
+        setEnableBotoesControle(false);
+        
     }//GEN-LAST:event_botaoPlayActionPerformed
 
     private void botaoPauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoPauseActionPerformed
@@ -270,18 +263,12 @@ public class telaPrincipal extends javax.swing.JFrame
     }//GEN-LAST:event_botaoPauseActionPerformed
 
     private void botaoCancelaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoCancelaActionPerformed
-        botaoGeraMusica.setEnabled(true);
-        spinnerBPM.setEnabled(true);
-        spinnerOitava.setEnabled(true);
-        spinnerVolume.setEnabled(true);
-        comboBoxInstrumento.setEnabled(true);
-        botaoInsereArquivo.setEnabled(true);
-        textAreaTextoEntrada.setEnabled(true);
-        botaoCancela.setEnabled(false);
-        botaoPlay.setEnabled(false);
-        botaoPause.setEnabled(false);
-        botaoSalvarSaida.setEnabled(false);
-        playerMusica.reset();
+        
+        setEnableBotoesControle(true);
+        
+        setEnableBotoesMusica(false);
+        
+        playerMusica.cancela();
     }//GEN-LAST:event_botaoCancelaActionPerformed
 
     private void comboBoxInstrumentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxInstrumentoActionPerformed
@@ -349,6 +336,25 @@ public class telaPrincipal extends javax.swing.JFrame
                 new telaPrincipal().setVisible(true);
             }
         });
+    }
+    
+    private void setEnableBotoesMusica(boolean estado)
+    {
+        botaoCancela.setEnabled(estado);
+        botaoPlay.setEnabled(estado);
+        botaoPause.setEnabled(estado);
+        botaoSalvarSaida.setEnabled(estado);
+    }
+    
+    private void setEnableBotoesControle(boolean estado)
+    {
+        botaoGeraMusica.setEnabled(estado);
+        spinnerBPM.setEnabled(estado);
+        spinnerOitava.setEnabled(estado);
+        spinnerVolume.setEnabled(estado);
+        comboBoxInstrumento.setEnabled(estado);
+        botaoInsereArquivo.setEnabled(estado);
+        textAreaTextoEntrada.setEnabled(estado);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

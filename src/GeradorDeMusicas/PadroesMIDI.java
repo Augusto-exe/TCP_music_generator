@@ -1,19 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package GeradorDeMusicas;
 
 import javax.sound.midi.MetaMessage;
 import javax.sound.midi.MidiEvent;
 import javax.sound.midi.ShortMessage;
 
-/**
- *
- * @author Augusto
- */
 public class PadroesMIDI {
+    
     private final static int canal =1,velocidade =100;
     
     public static int AGOGO= 114;
@@ -30,17 +22,21 @@ public class PadroesMIDI {
     public static int NOTA_LA = 9;
     public static int NOTA_SI = 11;
     
+    public static int VALOR_OITAVA = 12;
+    public static int MIDI_SEL_VOLUME = 7;
     public static int VOLUME_MAX = 127;
     public static int OITAVA_MAX = 9;
     public static int INSTRUMENTO_MAX = 128;
     
     public ShortMessage geraMensagemNota(boolean ligaNota, int nota,int oitava)
     {
-        nota = nota + 12* oitava;
+        //Ve qual valor de nota deve ser executado de acordo com a oitava
+        //No padrao MIDI cada oitava de uma nota é separada por 12 unidades
+        nota = nota + VALOR_OITAVA * oitava;
         
         ShortMessage mensagemMIDI = new ShortMessage( );
         try
-        {
+        { 
             if(ligaNota)
                 mensagemMIDI.setMessage(ShortMessage.NOTE_ON, canal, nota, velocidade);
             else
@@ -59,7 +55,7 @@ public class PadroesMIDI {
         try
         {
             
-            mensagemMIDI.setMessage(ShortMessage.PROGRAM_CHANGE, canal, instrumento, velocidade);
+            mensagemMIDI.setMessage(ShortMessage.PROGRAM_CHANGE, canal, instrumento, canal);
             
         }
         catch (Exception e) {
@@ -76,7 +72,7 @@ public class PadroesMIDI {
         try
         {
             
-            mensagemMIDI.setMessage( ShortMessage.CONTROL_CHANGE, canal, 7, volume );
+            mensagemMIDI.setMessage( ShortMessage.CONTROL_CHANGE, canal, MIDI_SEL_VOLUME , volume );
             
         }
         catch (Exception e) {
@@ -96,12 +92,10 @@ public class PadroesMIDI {
     
     //Esse trecho de código foi pego pronto, é utilizado para gerar um evento MIDI de alteração do BPM da música
     public MidiEvent geraEventoBPM(long bpm,long tick) {
-        // microseconds per quarternote
         long mpqn = 60000000 / bpm; //60000000  é o valor de ms para que  se passe um minuto na música, esse valor pode variar de acordo com o indice de ticks por batida
 
         MetaMessage metaMessage = new MetaMessage();
 
-        // create the tempo byte array
         byte[] array = new byte[] { 0, 0, 0 }; // Cria array de bytes com valor mpqn  
 
         for (int i = 0; i < 3; i++) {
@@ -109,7 +103,6 @@ public class PadroesMIDI {
             array[i] = (byte) (mpqn >> shift);
         }
 
-        // now set the message
         try {
             metaMessage.setMessage(81, array, 3); // Cria meta mensagem de  alteração de bpm (tempo) 
         } catch (Exception e) {

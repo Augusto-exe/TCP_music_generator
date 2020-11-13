@@ -33,17 +33,11 @@ public class PlayerMusica
     
     public void play()
     {
-         try
-        {
+
             if(playerTerminou())
-                player.setTickPosition(0); // redefine para o começo da musica
+               reset(); // redefine para o começo da musica
             player.start();
             
-        }
-        catch(Exception e)
-        {
-           System.out.println(e);
-        }
     }
     
     public void pause()
@@ -75,5 +69,11 @@ public class PlayerMusica
         {
             System.out.println(e);
         }
+    }
+    
+    public void cancela()
+    {
+        reset();
+        pause();
     }
 }

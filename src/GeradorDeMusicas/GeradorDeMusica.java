@@ -11,14 +11,13 @@ package GeradorDeMusicas;
  *
  * @author Augusto
  */
-public class Music_Generator 
+public class GeradorDeMusica 
 { 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) 
     {
-        // TODO code application logic here
         telaPrincipal t = new telaPrincipal();
         t.setVisible(true);
     }
