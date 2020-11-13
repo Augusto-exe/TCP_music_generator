@@ -4,6 +4,7 @@ import javax.sound.midi.MetaMessage;
 import javax.sound.midi.MidiEvent;
 import javax.sound.midi.ShortMessage;
 
+
 public class PadroesMIDI {
     
     private final static int canal =1,velocidade =100;

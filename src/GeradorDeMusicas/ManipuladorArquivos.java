@@ -1,9 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package GeradorDeMusicas;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -14,25 +10,18 @@ import javax.sound.midi.*;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
-/**
- *
- * @author Leonardo
- */
+
 public class ManipuladorArquivos 
 {
     
-    public void midiFileSalva(Sequence musica)
+    public void arquivoMIDIEscrita(Sequence musica)
     {
-        
-        String nomeArquivo = null;
-        ManipuladorArquivos manipulador = new ManipuladorArquivos();
-        
-        nomeArquivo = manipulador.geraNomeArquivo();
+        String nomeArquivo = this.geraNomeArquivoMIDI();
+        File arquivo = new File(nomeArquivo);  
         
         try
         {
-            File f = new File(nomeArquivo);
-            MidiSystem.write(musica,1,f);
+            MidiSystem.write(musica, 1, arquivo);
         }
         catch(Exception e)
         {
@@ -40,35 +29,33 @@ public class ManipuladorArquivos
         }
     }
     
-    public String preencheTextoBox(File inputTextFile)
+    public String preencheTextoBox(File arquivoDeEntrada)
     {
-        String  textfinal = null, linha = null;
-        try (BufferedReader br = new BufferedReader( new FileReader (inputTextFile))) 
+        String  textoFinal = null, linha = null;
+        try (BufferedReader leitorBuffer = new BufferedReader( new FileReader (arquivoDeEntrada))) 
             {
-                
-                while ((linha = br.readLine()) != null) 
+                while ((linha = leitorBuffer.readLine()) != null) 
                 {
-                    textfinal = textfinal + linha;
-                    textfinal = textfinal + "\n";
+                    textoFinal = textoFinal + linha;
+                    textoFinal = textoFinal + "\n";
                 }
-                
             } 
             catch (IOException exp) 
             {
                 exp.printStackTrace();
 
             }
-        return textfinal;
+        return textoFinal;
     } 
         
-    public String geraNomeArquivo()
+    public String geraNomeArquivoMIDI()
     {
         String nomeArquivo = null;
 
-        Locale locale = new Locale("pt","BR");
-        GregorianCalendar calendar = new GregorianCalendar();
-        SimpleDateFormat formatador = new SimpleDateFormat("dd_MM_yyyy-HH_mm_ss",locale);
-        nomeArquivo = "SaidaMidi-" + formatador.format(calendar.getTime()) + ".midi";
+        Locale local = new Locale("pt","BR");
+        GregorianCalendar calendario = new GregorianCalendar();
+        SimpleDateFormat formatador = new SimpleDateFormat("dd_MM_yyyy-HH_mm_ss",local);
+        nomeArquivo = "SaidaMidi-" + formatador.format(calendario.getTime()) + ".midi";
 
         return nomeArquivo;
     }

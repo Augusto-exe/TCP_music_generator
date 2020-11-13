@@ -1,21 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package GeradorDeMusicas;
+
 import javax.sound.midi.*;
 
-/**
- *
- * @author Augusto
- */
+
 public class Analisador extends PadroesMIDI implements  PadroesMusica  //classe analisador implementa as duas interfaces de constantes
 {
     
     private int instrumentoAtual,instrumentoPadrao, oitavaAtual, oitavaPadrao, bpmAtual, volumeAtual, volumePadrao, notaAtual;
     private long tickAtual = 0;
     public Sequence sequenciaGerada;
+    
 
     public void geraMusica(String textoEntrada, int bpmEntrada, int volumeEntrada, int oitavaEntrada, int instrumentoEntrada) {
 
