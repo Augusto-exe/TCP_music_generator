@@ -5,14 +5,12 @@
  */
 package GeradorDeMusicas;
 
-
-
 public class GeradorDeMusica 
 { 
 
     public static void main(String[] args) 
     {
-        telaPrincipal t = new telaPrincipal();
+        TelaPrincipal t = new TelaPrincipal();
         t.setVisible(true);
     }
     

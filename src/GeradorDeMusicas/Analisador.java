@@ -11,6 +11,10 @@ public class Analisador extends PadroesMIDI implements  PadroesMusica  //classe 
     public Sequence sequenciaGerada;
     
 
+    /*
+    *   Atualiza o atributo de sequencia (música) gerada de acordo com o texto de entrada.
+    *   Utiliza os valores de entrada como padrão para incializar a sequencia (música).
+    */
     public void geraMusica(String textoEntrada, int bpmEntrada, int volumeEntrada, int oitavaEntrada, int instrumentoEntrada) {
 
         int tamanhoTexto = textoEntrada.length();
@@ -69,6 +73,9 @@ public class Analisador extends PadroesMIDI implements  PadroesMusica  //classe 
 
     }
 
+    /*
+    *   Define os atributos da classe de acordo com os valores de entrada.
+    */
     private void inicializaAtributos(int bpmEntrada, int volumeEntrada, int oitavaEntrada, int instrumentoEntrada) {
 
         this.oitavaAtual = oitavaEntrada;
@@ -82,7 +89,11 @@ public class Analisador extends PadroesMIDI implements  PadroesMusica  //classe 
 
     }
 
+    /*
+    *   Insere na sequencia um evento de Ligar nota seguido por um evento de desligar nota no tick seguinte.
+    */
     private void insereNota(Track musicaGerada, int nota, int oitava) {
+        
         ShortMessage mensagemLigaNota = geraMensagemNota(LIGA_NOTA, nota, oitava);
 
         musicaGerada.add(geraEventoMIDI(mensagemLigaNota, this.tickAtual));
@@ -94,7 +105,12 @@ public class Analisador extends PadroesMIDI implements  PadroesMusica  //classe 
         musicaGerada.add(geraEventoMIDI(mensagemDesligaNota, this.tickAtual));
     }
 
+    /*
+    *   Define o volume da sequencia MIDI para o dorbo do atual.
+    *   Caso passe do valor limite define para o valor padrão de entrada.
+    */
     private void dobraVolume(Track musicaGerada) {
+        
         if ((this.volumeAtual * 2) > VOLUME_MAX) {
             this.volumeAtual = this.volumePadrao;
         } else {
@@ -106,15 +122,22 @@ public class Analisador extends PadroesMIDI implements  PadroesMusica  //classe 
 
     }
 
+    /*
+    *   Incrementa oitava, caso não seja possivel retorna ao valor padrão de entrda.
+    */
     private void incrementaOitava() {
+        
         if ((this.oitavaAtual + 1) > OITAVA_MAX) {
-            this.oitavaAtual = this.oitavaAtual;
+            this.oitavaAtual = this.oitavaPadrao;
         } else {
             this.oitavaAtual = this.oitavaAtual + 1;
         }
 
     }
 
+    /*
+    *   Define o instrumento da sequenciaGerada de acordo com o instrumento de entrada.
+    */
     private void defineInstrumento(Track musicaGerada,int instrumento) {
 
         ShortMessage mensagemInstrumento = geraMensagemInstrumento(instrumento);
@@ -122,6 +145,9 @@ public class Analisador extends PadroesMIDI implements  PadroesMusica  //classe 
 
     }
 
+    /*
+    *   Define os  valores iniciais da sequencia de acordo com os valores dos atributos.
+    */
     private void incializaMusica(Track musicaGerada) {
 
         ShortMessage mensagemVolume = geraMensagemVolume(this.volumeAtual);
@@ -135,11 +161,15 @@ public class Analisador extends PadroesMIDI implements  PadroesMusica  //classe 
         
     }   
 
-
+    /*
+    *   Busca acao que deve ser realizada de acordo com a letra atual.
+    *   Em caso de acao que utilizada letra anterior ela é avaliada em um segundo teste.
+    */
     public int buscaAcao(char letraAtual, char letraAnterior) {
 
         int instrucao = 0;
-
+        
+        
         switch (seletorAcao(letraAtual)) {
             case SELECAO_NOTA:
                 instrucao = seletorNota(letraAtual);
@@ -163,7 +193,7 @@ public class Analisador extends PadroesMIDI implements  PadroesMusica  //classe 
 
             case SELECAO_VERIFICA_ANTERIOR:
             default:
-                instrucao = verificaLetra(letraAnterior);
+                instrucao = verificaLetraAnterior(letraAnterior);
                 break;
 
         }
@@ -171,13 +201,17 @@ public class Analisador extends PadroesMIDI implements  PadroesMusica  //classe 
         return instrucao;
     }
 
-    private int verificaLetra(char letraAtual) {
+    /*
+    *   Confere se a letra de entrada faz parte da lista de sensibilidae de notas
+    */
+    private int verificaLetraAnterior(char letraAnalisada) {
 
         int instrucao = 0;
+        
+        
+        if (CARACTERES_NOTAS.contains(letraAnalisada)) {
 
-        if (CARACTERES_NOTAS.contains(letraAtual)) {
-
-            instrucao = seletorNota(letraAtual);
+            instrucao = seletorNota(letraAnalisada);
 
         } else {
 
@@ -187,31 +221,35 @@ public class Analisador extends PadroesMIDI implements  PadroesMusica  //classe 
         return instrucao;
     }
 
-    private int seletorAcao(char letraAtual) {
+    /*
+    *   Ve a qual lista de sensibilidade a letra pertence.
+    *   Caso não pertença a nenhuma pré-definida entra no caso de verificação da letra anterior.
+    */
+    private int seletorAcao(char letraAanalisada) {
 
         int codigoSaida;
 
-        if (CARACTERES_NOTAS.contains(letraAtual)) {
+        if (CARACTERES_NOTAS.contains(letraAanalisada)) {
 
             codigoSaida = SELECAO_NOTA;
 
         } else {
-            if (CARACTERES_INSTRUMENTO.contains(letraAtual)) {
+            if (CARACTERES_INSTRUMENTO.contains(letraAanalisada)) {
 
                 codigoSaida = SELECAO_INSTRUMENTO;
 
             } else {
-                if (CARACTERES_OITAVA.contains(letraAtual)) {
+                if (CARACTERES_OITAVA.contains(letraAanalisada)) {
 
                     codigoSaida = SELECAO_OITAVA;
 
                 } else {
-                    if (CARACTERES_SOMA.contains(letraAtual)) {
+                    if (CARACTERES_SOMA.contains(letraAanalisada)) {
 
                         codigoSaida = SELECAO_SOMA_INSTRUMENTO;
 
                     } else {
-                        if (CARACTERES_VOLUME.contains(letraAtual)) {
+                        if (CARACTERES_VOLUME.contains(letraAanalisada)) {
 
                             codigoSaida = SELECAO_VOLUME;
 
@@ -227,11 +265,15 @@ public class Analisador extends PadroesMIDI implements  PadroesMusica  //classe 
         return codigoSaida;
     }
 
-    private int seletorNota(char letraAtual) {
+    /*
+    *   Define a nota a partir da letra de entrada.
+    *   Esse método só deve ser chamado após a verificação de que a letra está na lista de sensibilidade de notas.
+    */
+    private int seletorNota(char letraAnalisada) {
 
         int instrucao = TOCA_NOTA;
-
-        switch (letraAtual) {
+        
+        switch (letraAnalisada) {
 
             case 'A':
                 this.notaAtual = NOTA_LA;
@@ -260,11 +302,14 @@ public class Analisador extends PadroesMIDI implements  PadroesMusica  //classe 
 
     }
 
-    private int seletorInstrumento(char letraAtual) {
+    /*
+    *   Define o instrumento de acordo com a letra de entrada.
+    */
+    private int seletorInstrumento(char letraAnalisada) {
 
         int instrucao = DEFINE_INSTRUMENTO;
 
-        switch (letraAtual) {
+        switch (letraAnalisada) {
 
             case 'i':
             case 'I':
@@ -296,10 +341,14 @@ public class Analisador extends PadroesMIDI implements  PadroesMusica  //classe 
 
     }
     
-    private int somaInstrumento(char letraAtual){
+    /*
+    *   Soma o instrumento atual com o valor da letra de entrada.
+    *   Caso ultrapasse o limite define como instrumento padrão de entrada.
+    */
+    private int somaInstrumento(char letraAnalisada){
         
         int instrucao = DEFINE_INSTRUMENTO;
-        int conversao = Character.getNumericValue(letraAtual) + this.instrumentoAtual;
+        int conversao = Character.getNumericValue(letraAnalisada) + this.instrumentoAtual;
         
         if(conversao < INSTRUMENTO_MAX)
         {
