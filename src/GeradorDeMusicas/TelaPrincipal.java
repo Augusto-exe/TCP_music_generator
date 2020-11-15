@@ -215,6 +215,7 @@ public class TelaPrincipal extends javax.swing.JFrame
         
         setEnableBotoesControle(false);
         setEnableBotoesMusica(true);
+        setEnableBotoesControle(false);
         
     }//GEN-LAST:event_botaoGeraMusicaActionPerformed
 
@@ -235,8 +236,6 @@ public class TelaPrincipal extends javax.swing.JFrame
     private void botaoPlayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoPlayActionPerformed
         playerMusica.play();
         
-        setEnableBotoesControle(false);
-        
     }//GEN-LAST:event_botaoPlayActionPerformed
 
     private void botaoPauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoPauseActionPerformed
@@ -252,6 +251,14 @@ public class TelaPrincipal extends javax.swing.JFrame
         playerMusica.cancela();
     }//GEN-LAST:event_botaoCancelaActionPerformed
 
+    /*
+    *   "seletorInstrumento" serve para definir o instrumento que vai se usado como padrão pelo analisador
+    *   Para acrescentar novos instrumentos segue-se os passos:
+    *   1º - Acrescentar o instrumento na combo box
+    *   2º - Definir em "PadroesMIDI" a constante do java sound correspondente ao instrumento
+    *           As constantes do java sound podem ser encontradas no link: https://en.wikipedia.org/wiki/General_MIDI#Program_change_events
+    *   3º - Adicionar um case ao switch da função abaixo
+    */
     private int seletorInstrumento(int indiceInstrumento)
     {
         int instrumento;

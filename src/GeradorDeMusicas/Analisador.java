@@ -19,7 +19,7 @@ public class Analisador extends PadroesMIDI implements  PadroesMusica  //classe 
 
         int tamanhoTexto = textoEntrada.length();
         int tipoEvento;
-        char letraAtual, letraAnterior = 'z'; //anterior escolhida como z para caso não exista, não executar nada
+        char letraAtual, letraAnterior;
 
         inicializaAtributos(bpmEntrada, volumeEntrada, oitavaEntrada, instrumentoEntrada);
 
@@ -35,6 +35,9 @@ public class Analisador extends PadroesMIDI implements  PadroesMusica  //classe 
                 letraAtual = textoEntrada.charAt(posTexto);
                 if (posTexto > 0) {
                     letraAnterior = textoEntrada.charAt(posTexto - 1);
+                }
+                else {
+                    letraAnterior = letraAtual; // Garante que nada aconteça quando a primeira letra lida for alguma que depende da letra anterior
                 }
 
                 //Busca qual ação deve ser executada de acordo com a combinação de caracteres
@@ -225,31 +228,31 @@ public class Analisador extends PadroesMIDI implements  PadroesMusica  //classe 
     *   Ve a qual lista de sensibilidade a letra pertence.
     *   Caso não pertença a nenhuma pré-definida entra no caso de verificação da letra anterior.
     */
-    private int seletorAcao(char letraAanalisada) {
+    private int seletorAcao(char letraAnalisada) {
 
         int codigoSaida;
 
-        if (CARACTERES_NOTAS.contains(letraAanalisada)) {
+        if (CARACTERES_NOTAS.contains(letraAnalisada)) {
 
             codigoSaida = SELECAO_NOTA;
 
         } else {
-            if (CARACTERES_INSTRUMENTO.contains(letraAanalisada)) {
+            if (CARACTERES_INSTRUMENTO.contains(letraAnalisada)) {
 
                 codigoSaida = SELECAO_INSTRUMENTO;
 
             } else {
-                if (CARACTERES_OITAVA.contains(letraAanalisada)) {
+                if (CARACTERES_OITAVA.contains(letraAnalisada)) {
 
                     codigoSaida = SELECAO_OITAVA;
 
                 } else {
-                    if (CARACTERES_SOMA.contains(letraAanalisada)) {
+                    if (CARACTERES_SOMA.contains(letraAnalisada)) {
 
                         codigoSaida = SELECAO_SOMA_INSTRUMENTO;
 
                     } else {
-                        if (CARACTERES_VOLUME.contains(letraAanalisada)) {
+                        if (CARACTERES_VOLUME.contains(letraAnalisada)) {
 
                             codigoSaida = SELECAO_VOLUME;
 

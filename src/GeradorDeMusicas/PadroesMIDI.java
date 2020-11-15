@@ -30,6 +30,9 @@ public class PadroesMIDI {
     public static int OITAVA_MAX = 9;
     public static int INSTRUMENTO_MAX = 128;
     
+    public boolean LIGA_NOTA = true;
+    public boolean DESLIGA_NOTA = false;
+    
     public ShortMessage geraMensagemNota(boolean ligaNota, int nota,int oitava)
     {
         //Ve qual valor de nota deve ser executado de acordo com a oitava
