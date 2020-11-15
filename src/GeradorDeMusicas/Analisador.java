@@ -19,7 +19,7 @@ public class Analisador extends PadroesMIDI implements  PadroesMusica  //classe 
 
         int tamanhoTexto = textoEntrada.length();
         int tipoEvento;
-        char letraAtual, letraAnterior = 'z'; //anterior escolhida como z para caso não exista, não executar nada
+        char letraAtual, letraAnterior;
 
         inicializaAtributos(bpmEntrada, volumeEntrada, oitavaEntrada, instrumentoEntrada);
 
@@ -35,6 +35,9 @@ public class Analisador extends PadroesMIDI implements  PadroesMusica  //classe 
                 letraAtual = textoEntrada.charAt(posTexto);
                 if (posTexto > 0) {
                     letraAnterior = textoEntrada.charAt(posTexto - 1);
+                }
+                else {
+                    letraAnterior = letraAtual; // Garante que nada aconteça quando a primeira letra lida for alguma que depende da letra anterior
                 }
 
                 //Busca qual ação deve ser executada de acordo com a combinação de caracteres
@@ -167,7 +170,7 @@ public class Analisador extends PadroesMIDI implements  PadroesMusica  //classe 
     */
     public int buscaAcao(char letraAtual, char letraAnterior) {
 
-        int instrucao = 0;
+        int instrucao;
         
         
         switch (seletorAcao(letraAtual)) {
@@ -206,7 +209,7 @@ public class Analisador extends PadroesMIDI implements  PadroesMusica  //classe 
     */
     private int verificaLetraAnterior(char letraAnalisada) {
 
-        int instrucao = 0;
+        int instrucao;
         
         
         if (CARACTERES_NOTAS.contains(letraAnalisada)) {
