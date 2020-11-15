@@ -31,7 +31,7 @@ public class ManipuladorArquivos
     
     public String preencheTextoBox(File arquivoDeEntrada)
     {
-        String  textoFinal = null, linha = null;
+        String  textoFinal = new String() , linha = new String();
         try (BufferedReader leitorBuffer = new BufferedReader( new FileReader (arquivoDeEntrada))) 
             {
                 while ((linha = leitorBuffer.readLine()) != null) 
@@ -48,9 +48,9 @@ public class ManipuladorArquivos
         return textoFinal;
     } 
         
-    public String geraNomeArquivoMIDI()
+    private String geraNomeArquivoMIDI()
     {
-        String nomeArquivo = null;
+        String nomeArquivo = new String();
 
         Locale local = new Locale("pt","BR");
         GregorianCalendar calendario = new GregorianCalendar();

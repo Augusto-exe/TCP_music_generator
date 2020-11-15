@@ -1,13 +1,14 @@
 package GeradorDeMusicas;
 
 import java.io.File;
-
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class TelaPrincipal extends javax.swing.JFrame 
 {
     public TelaPrincipal() 
     {
         initComponents();
+        complementoInicializacao();
     }
 
     @SuppressWarnings("unchecked")
@@ -355,4 +356,11 @@ public class TelaPrincipal extends javax.swing.JFrame
     private javax.swing.JSpinner spinnerVolume;
     private javax.swing.JTextArea textAreaTextoEntrada;
     // End of variables declaration//GEN-END:variables
+
+    private void complementoInicializacao() {
+        
+        fileChooserArquivoEntrada.setAcceptAllFileFilterUsed(false);
+        fileChooserArquivoEntrada.setFileFilter(new FileNameExtensionFilter("Arquivos de Texto", "txt", "text"));
+        
+    }
 }
