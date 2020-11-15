@@ -67,7 +67,7 @@ public class Analisador extends PadroesMIDI implements  PadroesMusica  //classe 
                         break;
                 }
             }
-        } catch (Exception e) {
+        } catch (InvalidMidiDataException e) {
             System.out.println(e);
         }
 
@@ -167,7 +167,7 @@ public class Analisador extends PadroesMIDI implements  PadroesMusica  //classe 
     */
     public int buscaAcao(char letraAtual, char letraAnterior) {
 
-        int instrucao = 0;
+        int instrucao;
         
         
         switch (seletorAcao(letraAtual)) {
@@ -206,7 +206,7 @@ public class Analisador extends PadroesMIDI implements  PadroesMusica  //classe 
     */
     private int verificaLetraAnterior(char letraAnalisada) {
 
-        int instrucao = 0;
+        int instrucao;
         
         
         if (CARACTERES_NOTAS.contains(letraAnalisada)) {

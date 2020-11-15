@@ -23,7 +23,7 @@ public class ManipuladorArquivos
         {
             MidiSystem.write(musica, 1, arquivo);
         }
-        catch(Exception e)
+        catch(IOException e)
         {
            System.out.println(e);
         }
@@ -31,7 +31,7 @@ public class ManipuladorArquivos
     
     public String preencheTextoBox(File arquivoDeEntrada)
     {
-        String  textoFinal = new String() , linha = new String();
+        String  textoFinal = new String() , linha;
         try (BufferedReader leitorBuffer = new BufferedReader( new FileReader (arquivoDeEntrada))) 
             {
                 while ((linha = leitorBuffer.readLine()) != null) 
@@ -42,7 +42,7 @@ public class ManipuladorArquivos
             } 
             catch (IOException exp) 
             {
-                exp.printStackTrace();
+                System.out.println(exp);
 
             }
         return textoFinal;

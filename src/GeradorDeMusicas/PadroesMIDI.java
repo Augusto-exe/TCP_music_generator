@@ -1,5 +1,6 @@
 package GeradorDeMusicas;
 
+import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MetaMessage;
 import javax.sound.midi.MidiEvent;
 import javax.sound.midi.ShortMessage;
@@ -44,7 +45,7 @@ public class PadroesMIDI {
                 mensagemMIDI.setMessage(ShortMessage.NOTE_OFF, canal, nota, velocidade);
             
         }
-        catch (Exception e) {
+        catch (InvalidMidiDataException e) {
             System.out.println(e);
         }
         return mensagemMIDI;
@@ -59,7 +60,7 @@ public class PadroesMIDI {
             mensagemMIDI.setMessage(ShortMessage.PROGRAM_CHANGE, canal, instrumento, canal);
             
         }
-        catch (Exception e) {
+        catch (InvalidMidiDataException e) {
             System.out.println(e);
         }
         return mensagemMIDI;
@@ -76,7 +77,7 @@ public class PadroesMIDI {
             mensagemMIDI.setMessage( ShortMessage.CONTROL_CHANGE, canal, MIDI_SEL_VOLUME , volume );
             
         }
-        catch (Exception e) {
+        catch (InvalidMidiDataException e) {
             System.out.println(e);
         }
         return mensagemMIDI;
@@ -106,8 +107,8 @@ public class PadroesMIDI {
 
         try {
             metaMessage.setMessage(81, array, 3); // Cria meta mensagem de  alteração de bpm (tempo) 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (InvalidMidiDataException e) {
+            System.out.println(e);
             System.exit(1);
         }
 

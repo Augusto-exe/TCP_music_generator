@@ -17,7 +17,7 @@ public class PlayerMusica
             player.setSequence(sequenciaEntrada);
         
         }
-        catch(Exception e)
+        catch(InvalidMidiDataException | MidiUnavailableException e)
         {
            System.out.println(e);
         }
