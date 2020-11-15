@@ -6,8 +6,6 @@ import java.util.Arrays;
 /*
 *   Define as constantes usadas pelo analisador para identificar os eventos que serão executados
 */
-
-
 public interface PadroesMusica {
     
     //  Definições para os códigos de evento

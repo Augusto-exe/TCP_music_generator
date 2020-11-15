@@ -2,7 +2,11 @@ package GeradorDeMusicas;
 
 import javax.sound.midi.*;
 
-
+/*
+*   Classe responsável por fazer o parse do Texto para uma Sequencia MIDI.
+*   O método contém o atributo sequenciaGerada que pode ser passado para um Sequencer(Sequenciador).
+*   Essa sequencia pode também ser gravada em um arquivo do tipo MIDI.
+*/
 public class Analisador extends PadroesMIDI implements  PadroesMusica  //classe analisador implementa as duas interfaces de constantes
 {
     

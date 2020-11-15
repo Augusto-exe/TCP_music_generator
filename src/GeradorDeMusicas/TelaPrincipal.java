@@ -3,6 +3,10 @@ package GeradorDeMusicas;
 import java.io.File;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+/*
+*   Classe da interface gráfica.
+*   Gerencia as interações e manipula os objetos de acordo.
+*/
 public class TelaPrincipal extends javax.swing.JFrame 
 {
     public TelaPrincipal() 
@@ -200,8 +204,11 @@ public class TelaPrincipal extends javax.swing.JFrame
     private final Analisador analisador = new Analisador();
     private final ManipuladorArquivos manipulador = new ManipuladorArquivos();
     
+    /*
+    *   Função que inicia a geração da música após o usuário solicitar
+    */
     private void botaoGeraMusicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoGeraMusicaActionPerformed
-        //GERA MUSICA
+
         int bpm,volume,oitava,indiceInstrumento,instrumento;
         
         bpm = (int)(spinnerBPM.getValue());
@@ -210,38 +217,57 @@ public class TelaPrincipal extends javax.swing.JFrame
         indiceInstrumento = (int)(comboBoxInstrumento.getSelectedIndex());
         instrumento = seletorInstrumento(indiceInstrumento);
         
+        //Passa o texto da texBox para o analisador gerar uma sequencia que estará em seu atributo.
         analisador.geraMusica(textAreaTextoEntrada.getText(),bpm,volume,oitava,instrumento);
+        //inicializa o player com a sequência gerada pelo analisador
         playerMusica.setSequencia(analisador.sequenciaGerada);
         
+        //Habilita  booes de acordo com a necessidade
         setEnableBotoesControle(false);
         setEnableBotoesMusica(true);
-        setEnableBotoesControle(false);
         
     }//GEN-LAST:event_botaoGeraMusicaActionPerformed
 
+    /*
+    *   Função que pega informações de arquivo de texto aberto e coloca na texBox
+    */
     private void botaoInsereArquivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoInsereArquivoActionPerformed
-
+        
+        //Verifica se o usuário selecionou um arquivo
         if (fileChooserArquivoEntrada.showOpenDialog(this) == javax.swing.JFileChooser.APPROVE_OPTION) 
         {
+            //Extrai informações e coloca na texBox
             File arquivoDeEntrada = fileChooserArquivoEntrada.getSelectedFile(); 
             textAreaTextoEntrada.setText(manipulador.copiaTextoArquivo(arquivoDeEntrada));
             textAreaTextoEntrada.setCaretPosition(0);
         } 
     }//GEN-LAST:event_botaoInsereArquivoActionPerformed
 
+    /*
+    *   Função responsável por solicitar salvamento da sequência gerada em Arquivo MIDI
+    */
     private void botaoSalvarSaidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoSalvarSaidaActionPerformed
         manipulador.arquivoMIDIEscrita(analisador.sequenciaGerada);
     }//GEN-LAST:event_botaoSalvarSaidaActionPerformed
 
+    /*
+    *   Função responsável por solicitar o incio da reprodução da música
+    */
     private void botaoPlayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoPlayActionPerformed
         playerMusica.play();
         
     }//GEN-LAST:event_botaoPlayActionPerformed
 
+    /*
+    *   Função responsável por solicitar a pausa da reprodução da música
+    */
     private void botaoPauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoPauseActionPerformed
         playerMusica.pause();
     }//GEN-LAST:event_botaoPauseActionPerformed
 
+    /*
+    *   Função responsável por cancelar a reprodução da música e habilitar edição do texto de entrada novamente
+    */
     private void botaoCancelaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoCancelaActionPerformed
         
         setEnableBotoesControle(true);
@@ -312,6 +338,9 @@ public class TelaPrincipal extends javax.swing.JFrame
         });
     }
     
+    /*
+    *   Função para definir estado de habilitação do conjunto de botões relacionados com o player
+    */
     private void setEnableBotoesMusica(boolean estado)
     {
         botaoCancela.setEnabled(estado);
@@ -320,6 +349,9 @@ public class TelaPrincipal extends javax.swing.JFrame
         botaoSalvarSaida.setEnabled(estado);
     }
     
+    /*
+    *   Função para definir estado de habilitação do conjunto de botões relacionados com a definição da Entrada.
+    */
     private void setEnableBotoesControle(boolean estado)
     {
         botaoGeraMusica.setEnabled(estado);
@@ -331,6 +363,15 @@ public class TelaPrincipal extends javax.swing.JFrame
         textAreaTextoEntrada.setEnabled(estado);
     }
 
+    /*
+    *   Função utilizada para garantir que só possam ser escolhidos arquivos txt como entrada.
+    */
+    private void complementoInicializacao() {
+        
+        fileChooserArquivoEntrada.setAcceptAllFileFilterUsed(false);
+        fileChooserArquivoEntrada.setFileFilter(new FileNameExtensionFilter("Arquivos de Texto", "txt", "text"));
+        
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botaoCancela;
     private javax.swing.JButton botaoGeraMusica;
@@ -352,10 +393,5 @@ public class TelaPrincipal extends javax.swing.JFrame
     private javax.swing.JTextArea textAreaTextoEntrada;
     // End of variables declaration//GEN-END:variables
 
-    private void complementoInicializacao() {
-        
-        fileChooserArquivoEntrada.setAcceptAllFileFilterUsed(false);
-        fileChooserArquivoEntrada.setFileFilter(new FileNameExtensionFilter("Arquivos de Texto", "txt", "text"));
-        
-    }
+    
 }
