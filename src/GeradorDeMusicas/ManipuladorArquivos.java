@@ -13,7 +13,10 @@ import java.util.Locale;
 
 public class ManipuladorArquivos 
 {
-    
+    /*
+    *   Salva a sequencia gerada pelo programa em um arquivo MIDI no diretório do programa.
+    * O nome é automaticamente gerado pela geraNomeArquivoMIDI().
+    */
     public void arquivoMIDIEscrita(Sequence musica)
     {
         String nomeArquivo = this.geraNomeArquivoMIDI();
@@ -29,7 +32,11 @@ public class ManipuladorArquivos
         }
     }
     
-    public String preencheTextoBox(File arquivoDeEntrada)
+    /*
+    *   Recebe o arquivo de texto que foi inserido e preenche uma váriavel para o valor de retorno.
+    * A finalidade desse método é preencher a caixa de texto da tela do programa.
+    */
+    public String copiaTextoArquivo(File arquivoDeEntrada)
     {
         String  textoFinal = new String() , linha;
         try (BufferedReader leitorBuffer = new BufferedReader( new FileReader (arquivoDeEntrada))) 
@@ -48,9 +55,14 @@ public class ManipuladorArquivos
         return textoFinal;
     } 
         
+    /*
+    *   Método gera um nome padrão para todos os arquivos MIDI gerados. O método começa o nome com "SaidaMIDI"
+    * em seguida a data e hora, assim o nome do arquivo nunca se repete. E no final a extensão do arquivo.
+    */
+    
     private String geraNomeArquivoMIDI()
     {
-        String nomeArquivo = new String();
+        String nomeArquivo;
 
         Locale local = new Locale("pt","BR");
         GregorianCalendar calendario = new GregorianCalendar();
@@ -59,7 +71,5 @@ public class ManipuladorArquivos
 
         return nomeArquivo;
     }
-    
-    
 }
 

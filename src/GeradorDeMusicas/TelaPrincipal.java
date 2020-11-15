@@ -75,11 +75,6 @@ public class TelaPrincipal extends javax.swing.JFrame
 
         comboBoxInstrumento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione um Instrumento", "Agogô", "Cravo", "Sinos", "Flauta Pan", "Orgão de Tubo" }));
         comboBoxInstrumento.setToolTipText("");
-        comboBoxInstrumento.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                comboBoxInstrumentoActionPerformed(evt);
-            }
-        });
 
         jLabel1.setText("Volume:");
 
@@ -108,7 +103,6 @@ public class TelaPrincipal extends javax.swing.JFrame
         });
 
         botaoSalvarSaida.setText("Salvar Arquivo MIDI");
-        botaoSalvarSaida.setActionCommand("Salvar Arquivo MIDI");
         botaoSalvarSaida.setEnabled(false);
         botaoSalvarSaida.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -198,7 +192,6 @@ public class TelaPrincipal extends javax.swing.JFrame
         );
 
         jLabel1.getAccessibleContext().setAccessibleName("volume");
-        botaoSalvarSaida.getAccessibleContext().setAccessibleName("Salvar Arquivo MIDI");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -230,7 +223,7 @@ public class TelaPrincipal extends javax.swing.JFrame
         if (fileChooserArquivoEntrada.showOpenDialog(this) == javax.swing.JFileChooser.APPROVE_OPTION) 
         {
             File arquivoDeEntrada = fileChooserArquivoEntrada.getSelectedFile(); 
-            textAreaTextoEntrada.setText(manipulador.preencheTextoBox(arquivoDeEntrada));
+            textAreaTextoEntrada.setText(manipulador.copiaTextoArquivo(arquivoDeEntrada));
             textAreaTextoEntrada.setCaretPosition(0);
         } 
     }//GEN-LAST:event_botaoInsereArquivoActionPerformed
@@ -258,10 +251,6 @@ public class TelaPrincipal extends javax.swing.JFrame
         
         playerMusica.cancela();
     }//GEN-LAST:event_botaoCancelaActionPerformed
-
-    private void comboBoxInstrumentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxInstrumentoActionPerformed
-        
-    }//GEN-LAST:event_comboBoxInstrumentoActionPerformed
 
     private int seletorInstrumento(int indiceInstrumento)
     {
