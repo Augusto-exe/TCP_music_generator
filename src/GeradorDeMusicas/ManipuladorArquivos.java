@@ -50,7 +50,7 @@ public class ManipuladorArquivos
         
     private String geraNomeArquivoMIDI()
     {
-        String nomeArquivo = new String();
+        String nomeArquivo;
 
         Locale local = new Locale("pt","BR");
         GregorianCalendar calendario = new GregorianCalendar();
