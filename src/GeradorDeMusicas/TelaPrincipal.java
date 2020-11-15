@@ -264,7 +264,6 @@ public class TelaPrincipal extends javax.swing.JFrame
         int instrumento;
         switch(indiceInstrumento)
         {
-            case 0:
             case 1:
                 instrumento = PadroesMIDI.AGOGO;
                 break;
