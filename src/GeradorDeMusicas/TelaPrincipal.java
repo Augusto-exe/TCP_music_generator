@@ -221,6 +221,7 @@ public class TelaPrincipal extends javax.swing.JFrame
         playerMusica.setSequencia(analisador.sequenciaGerada);
         
         setEnableBotoesMusica(true);
+        setEnableBotoesControle(false);
         
     }//GEN-LAST:event_botaoGeraMusicaActionPerformed
 
@@ -240,8 +241,6 @@ public class TelaPrincipal extends javax.swing.JFrame
 
     private void botaoPlayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoPlayActionPerformed
         playerMusica.play();
-        
-        setEnableBotoesControle(false);
         
     }//GEN-LAST:event_botaoPlayActionPerformed
 
