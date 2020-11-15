@@ -228,31 +228,31 @@ public class Analisador extends PadroesMIDI implements  PadroesMusica  //classe 
     *   Ve a qual lista de sensibilidade a letra pertence.
     *   Caso não pertença a nenhuma pré-definida entra no caso de verificação da letra anterior.
     */
-    private int seletorAcao(char letraAanalisada) {
+    private int seletorAcao(char letraAnalisada) {
 
         int codigoSaida;
 
-        if (CARACTERES_NOTAS.contains(letraAanalisada)) {
+        if (CARACTERES_NOTAS.contains(letraAnalisada)) {
 
             codigoSaida = SELECAO_NOTA;
 
         } else {
-            if (CARACTERES_INSTRUMENTO.contains(letraAanalisada)) {
+            if (CARACTERES_INSTRUMENTO.contains(letraAnalisada)) {
 
                 codigoSaida = SELECAO_INSTRUMENTO;
 
             } else {
-                if (CARACTERES_OITAVA.contains(letraAanalisada)) {
+                if (CARACTERES_OITAVA.contains(letraAnalisada)) {
 
                     codigoSaida = SELECAO_OITAVA;
 
                 } else {
-                    if (CARACTERES_SOMA.contains(letraAanalisada)) {
+                    if (CARACTERES_SOMA.contains(letraAnalisada)) {
 
                         codigoSaida = SELECAO_SOMA_INSTRUMENTO;
 
                     } else {
-                        if (CARACTERES_VOLUME.contains(letraAanalisada)) {
+                        if (CARACTERES_VOLUME.contains(letraAnalisada)) {
 
                             codigoSaida = SELECAO_VOLUME;
 

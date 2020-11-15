@@ -3,16 +3,21 @@ package GeradorDeMusicas;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/*
+*   Define as constantes usadas pelo analisador para identificar os eventos que serão executados
+*/
+
 
 public interface PadroesMusica {
     
-    
+    //  Definições para os códigos de evento
     public static int TOCA_NOTA= 1;
     public static int DEFINE_INSTRUMENTO =2;
     public static int DOBRA_VOLUME = 3;
     public static int SILENCIO = 4;
     public static int AUMENTA_OITAVA = 5;
     
+    //  Seletores usados para definir o retorno de "seletorAcao"
     public static int SELECAO_NOTA = 0;
     public static int SELECAO_INSTRUMENTO = 1;
     public static int SELECAO_SOMA_INSTRUMENTO = 2;
@@ -31,6 +36,4 @@ public interface PadroesMusica {
     public static ArrayList<Character> CARACTERES_SOMA = new ArrayList<>(Arrays.asList('0','1','2','3','4','5','6','7','8','9'));    
     public static ArrayList<Character> CARACTERES_VOLUME = new ArrayList<>(Arrays.asList(' '));
     
-    public boolean LIGA_NOTA = true;
-    public boolean DESLIGA_NOTA = false;
 }
